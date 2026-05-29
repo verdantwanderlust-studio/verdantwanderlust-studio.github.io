@@ -1,0 +1,36 @@
+---
+/* 關於 · About — 草稿沒細畫,做單欄敘事(暗調),內容 placeholder 等 Ivy brand brief */
+import PreviewLayout from '~/layouts/PreviewLayout.astro';
+import { Image } from 'astro:assets';
+import portrait from '~/assets/featured/01.jpg'; // 暫用代表照,Ivy 之後換肖像 / 工作照
+---
+<PreviewLayout title="關於 · 景觀丸藝" active="about">
+  <section class="about">
+    <div class="pv-wrap about-grid">
+      <div class="about-text">
+        <p class="pv-kicker">關於 · About</p>
+        <h1 class="pv-display title">介紹<br/>景觀丸藝</h1>
+        <hr class="pv-rule" />
+        <p class="lede pv-serif">玻璃裡的微縮地景,是把一段濕潤的森林封進透明容器,讓它自己呼吸、自己慢慢長。</p>
+        <p class="body">_第一人稱介紹待 Ivy 提供:怎麼開始做生態瓶、為什麼是苔蘚、採集與養護的哲學、工作室在哪裡。_</p>
+        <p class="body">_一段關於「慢」與「真」的話 — 一個好的生態瓶不是擺設,是一個會自己變化的微氣候。_</p>
+      </div>
+      <div class="about-fig">
+        <Image src={portrait} alt="景觀丸藝" widths={[500, 900]} sizes="(max-width: 880px) 100vw, 460px" loading="eager" class="fig-img" />
+        <p class="fig-cap pv-serif">_工作室 / 肖像照待 Ivy 提供_</p>
+      </div>
+    </div>
+  </section>
+</PreviewLayout>
+
+<style>
+  .about { padding: var(--s-24) 0; }
+  .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--s-16); align-items: start; }
+  .title { font-size: clamp(2.8rem, 6vw, 5rem); }
+  .lede { font-size: clamp(1.3rem, 2.2vw, 1.7rem); color: var(--ink); line-height: 1.5; margin: 0 0 var(--s-8); }
+  .body { color: var(--ink-muted); font-size: 1.02rem; max-width: 540px; margin: 0 0 var(--s-5); line-height: 1.85; }
+  .about-fig { position: sticky; top: 120px; }
+  .fig-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; border: 1px solid var(--border); border-radius: var(--r-md); }
+  .fig-cap { margin: var(--s-3) 0 0; font-size: 0.95rem; color: var(--ink-faint); text-align: center; }
+  @media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; gap: var(--s-10); } .about-fig { position: static; } }
+</style>

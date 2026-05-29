@@ -1,0 +1,198 @@
+---
+/* Home — 照 Ivy 草稿 image 1 + 2
+   1. About 簡介橫條(全寬,點 → /preview/about)
+   2. 三大入口卡:作品集 / 工作坊 / 商業合作(雙語標題,開新分頁)
+   3. 作品集卡內 marquee(預設會動)
+   4. 中段 carousel + dots(featured)
+   5. footer:About / Contact Us(在 PreviewLayout)
+*/
+import PreviewLayout from '~/layouts/PreviewLayout.astro';
+import { Image } from 'astro:assets';
+
+// 作品縮圖(marquee 用)
+import t01 from '~/assets/portfolio/01-terrarium-vw.jpg';
+import t02 from '~/assets/portfolio/02.jpg';
+import t03 from '~/assets/portfolio/03.jpg';
+import t04 from '~/assets/portfolio/04.jpg';
+import t05 from '~/assets/portfolio/05.jpg';
+import t06 from '~/assets/portfolio/06.jpg';
+import t07 from '~/assets/portfolio/07-lion-king.png';
+import t08 from '~/assets/portfolio/08-lion-king.png';
+import t09 from '~/assets/portfolio/09-lion-king.png';
+const marqueeImgs = [t01, t02, t03, t04, t05, t06, t07, t08, t09];
+
+// 工作坊 / 商業合作 卡的單張代表圖
+import shopImg from '~/assets/portfolio/04.jpg';
+import bizImg from '~/assets/portfolio/08-lion-king.png';
+
+// 中段 carousel(長型照)
+import f01 from '~/assets/featured/01.jpg';
+import f02 from '~/assets/featured/02.jpg';
+import f03 from '~/assets/featured/03.jpg';
+import f04 from '~/assets/featured/04.jpg';
+const featured = [
+  { img: f01, cap: '採集 · 苔蘚與微氣候' },
+  { img: f02, cap: '玻璃裡的山壁滲水' },
+  { img: f03, cap: '一株一石的取捨' },
+  { img: f04, cap: '光,從上方落進瓶中' },
+];
+
+// TODO 文案校準(Ivy 是 terrarium 工作室,非大型景觀)
+const aboutLede = '玻璃裡的微縮地景。我們把一段濕潤的森林、一塊長苔的石,封進透明的容器裡,讓它自己呼吸、自己慢慢長。';
+const entries = [
+  { href: '/preview/portfolio', zh: '作品集', en: 'Portfolio',     desc: '近年生態瓶與微景觀紀錄', marquee: true },
+  { href: '/preview/courses',   zh: '工作坊', en: 'Workshop',      desc: '苔蘚生態瓶手作課程',     img: shopImg },
+  { href: '/preview/contact',   zh: '商業合作', en: 'Collaboration', desc: '空間綠化 · 品牌訂製 · 展示', img: bizImg },
+];
+---
+<PreviewLayout title="景觀丸藝 / Verdant Wanderlust" active="home">
+
+  <!-- 1 · About 簡介橫條 -->
+  <a class="about-band" href="/preview/about">
+    <div class="pv-wrap band-inner">
+      <div class="band-text">
+        <p class="pv-kicker">關於 · About</p>
+        <h1 class="pv-display band-h">介紹<br/>景觀丸藝</h1>
+        <p class="band-lede pv-serif">{aboutLede}</p>
+        <span class="band-more">繼續閱讀 <span aria-hidden="true">→</span></span>
+      </div>
+    </div>
+  </a>
+
+  <!-- 2+3 · 三大入口卡 -->
+  <section class="entries">
+    <div class="pv-wrap">
+      <ul class="entry-grid">
+        {entries.map(e => (
+          <li>
+            <a href={e.href} class="entry" target="_blank" rel="noopener">
+              <div class="thumb">
+                {e.marquee ? (
+                  <div class="marquee" aria-hidden="true">
+                    <div class="m-track">
+                      {[...marqueeImgs, ...marqueeImgs].map((img, i) => (
+                        <span class="m-tile"><Image src={img} alt="" width={180} height={225} densities={[1,2]} loading={i < 5 ? 'eager' : 'lazy'} class="m-img" /></span>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <Image src={e.img} alt="" width={520} height={650} densities={[1,2]} loading="eager" class="thumb-img" />
+                )}
+              </div>
+              <div class="entry-foot">
+                <h3 class="entry-title"><span class="zh">{e.zh}</span><span class="en">{e.en}</span></h3>
+                <p class="entry-desc">{e.desc}</p>
+                <span class="entry-go" aria-hidden="true">↗</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 · 中段 carousel + dots -->
+  <section class="featured">
+    <div class="pv-wrap">
+      <p class="pv-kicker">Featured · 精選</p>
+      <div class="carousel" data-carousel>
+        <div class="slides">
+          {featured.map((s, i) => (
+            <figure class={`slide ${i === 0 ? 'active' : ''}`} data-slide={i}>
+              <Image src={s.img} alt={s.cap} widths={[800, 1400]} sizes="(max-width: 980px) 100vw, 1100px" loading={i === 0 ? 'eager' : 'lazy'} class="slide-img" />
+              <figcaption class="slide-cap pv-serif">{s.cap}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <div class="dots" role="tablist" aria-label="精選輪播">
+          {featured.map((_, i) => (
+            <button class={`dot ${i === 0 ? 'active' : ''}`} data-dot={i} aria-label={`第 ${i + 1} 張`}></button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</PreviewLayout>
+
+<script>
+  // 極簡 fade carousel:dot 切換 + 8s 自動,hover 暫停。無依賴。
+  document.querySelectorAll('[data-carousel]').forEach((root) => {
+    const slides = [...root.querySelectorAll('[data-slide]')];
+    const dots = [...root.querySelectorAll('[data-dot]')];
+    let cur = 0, timer: number | undefined;
+    const go = (n: number) => {
+      cur = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle('active', i === cur));
+      dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+    };
+    const start = () => { timer = window.setInterval(() => go(cur + 1), 8000); };
+    const stop = () => { if (timer) window.clearInterval(timer); };
+    dots.forEach((d, i) => d.addEventListener('click', () => { stop(); go(i); start(); }));
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
+  });
+</script>
+
+<style>
+  /* ===== 1 · about band ===== */
+  .about-band {
+    display: block; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--d) var(--ease);
+  }
+  .about-band:hover { background: var(--surface-2); }
+  .band-inner { padding: var(--s-32) 0 var(--s-24); }
+  .band-text { max-width: 640px; }
+  .band-h { font-size: clamp(3rem, 8vw, 6rem); margin: 0 0 var(--s-8); }
+  .band-lede { font-size: clamp(1.15rem, 2vw, 1.5rem); color: var(--ink); line-height: 1.55; margin: 0 0 var(--s-8); }
+  .band-more { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .about-band:hover .band-more { color: var(--accent-hover); }
+
+  /* ===== 2+3 · entry cards ===== */
+  .entries { padding: var(--s-24) 0; }
+  /* minmax(0,1fr) + li min-width:0:防止 marquee 的 min-content 撐爆 grid 欄(1fr=minmax(auto,1fr) 會被撐開) */
+  .entry-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-8); }
+  .entry-grid > li { min-width: 0; }
+  .entry { display: flex; flex-direction: column; min-width: 0; height: 100%; transition: transform var(--d) var(--ease); }
+  .entry:hover { transform: translateY(-4px); }
+  /* 三卡 thumb 寬高一致 */
+  .thumb { min-width: 0; aspect-ratio: 4 / 5; border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; background: var(--surface); transition: border-color var(--d-fast) var(--ease); }
+  .entry:hover .thumb { border-color: var(--accent); }
+  .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .marquee { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: stretch; }
+  .m-track { display: flex; gap: var(--s-2); animation: m-scroll 48s linear infinite; will-change: transform; }
+  .entry:hover .m-track { animation-play-state: paused; }
+  .m-tile { flex: 0 0 auto; width: 150px; height: 100%; overflow: hidden; }
+  .m-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @keyframes m-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .entry-foot { padding: var(--s-5) 0 0; position: relative; }
+  .entry-title { display: flex; align-items: baseline; gap: var(--s-3); margin: 0 0 var(--s-2); }
+  .entry-title .zh { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 1.7rem; color: var(--ink); }
+  .entry-title .en { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+  .entry-desc { margin: 0; color: var(--ink-muted); font-size: 0.9rem; }
+  .entry-go { position: absolute; top: var(--s-5); right: 0; font-family: var(--font-mono); color: var(--ink-faint); transition: color var(--d-fast) var(--ease); }
+  .entry:hover .entry-go { color: var(--accent); }
+
+  /* ===== 4 · carousel ===== */
+  .featured { padding: var(--s-16) 0 var(--s-24); border-top: 1px solid var(--border); }
+  .carousel { margin-top: var(--s-8); }
+  .slides { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--border); background: var(--surface); }
+  .slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity var(--d-slow) var(--ease); }
+  .slide.active { opacity: 1; }
+  .slide-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .slide-cap { position: absolute; left: var(--s-6); bottom: var(--s-6); font-size: 1.3rem; color: var(--ink); text-shadow: 0 1px 12px rgba(0,0,0,0.6); }
+  .dots { display: flex; gap: var(--s-3); justify-content: center; margin-top: var(--s-6); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); border: none; cursor: pointer; padding: 0; transition: background var(--d-fast) var(--ease), transform var(--d-fast) var(--ease); }
+  .dot:hover { background: var(--ink-muted); }
+  .dot.active { background: var(--accent); transform: scale(1.4); }
+
+  @media (max-width: 820px) {
+    .entry-grid { grid-template-columns: 1fr; gap: var(--s-10); max-width: 460px; margin: 0 auto; }
+    .band-inner { padding: var(--s-24) 0 var(--s-16); }
+  }
+  @media (prefers-reduced-motion: reduce) { .m-track { animation: none; } .slide { transition: none; } }
+</style>
