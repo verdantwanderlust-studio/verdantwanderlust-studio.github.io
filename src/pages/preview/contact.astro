@@ -1,0 +1,53 @@
+---
+/* 聯繫 · Contact — 照 Ivy 草稿 image 5:詳細地址 / Email / Google Map? / And?(暗調)*/
+import PreviewLayout from '~/layouts/PreviewLayout.astro';
+
+const email = 'hello@verdantwanderlust.com'; // Ivy 替換
+const address = '_工作室地址 / 服務區域待 Ivy 填_';
+const hours = '_營業 / 預約時間待填_';
+// Google Maps → 分享 → 嵌入地圖 拿 src(Ivy 給地址後替換)
+const mapSrc = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14467!2d121.5318!3d25.0330!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDAxJzU4LjgiTiAxMjHCsDMxJzU0LjUiRQ!5e0!3m2!1szh-TW!2stw';
+---
+<PreviewLayout title="聯繫 · 景觀丸藝" active="contact">
+  <section class="contact">
+    <div class="pv-wrap c-grid">
+      <div class="c-text">
+        <p class="pv-kicker">Contact · 聯繫</p>
+        <h1 class="pv-display title">寫一封信</h1>
+        <p class="sub pv-serif">想訂製、報名工作坊、或只是想聊聊玻璃裡的植物 — 都歡迎。</p>
+        <hr class="pv-rule" />
+        <dl class="info">
+          <dt>Email</dt>
+          <dd><a href={`mailto:${email}`} class="mail">{email}</a></dd>
+          <dt>工作室</dt>
+          <dd>{address}</dd>
+          <dt>時間</dt>
+          <dd>{hours}</dd>
+          <dt>社群</dt>
+          <dd><a href="https://www.instagram.com/" target="_blank" rel="noopener" class="mail">Instagram</a> · <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="mail">Facebook</a></dd>
+        </dl>
+        <!-- 草稿「And?」Ivy 還在想要加什麼(電話 / LINE / 預約 / 營業時間)— 確認後補 -->
+      </div>
+      <div class="c-map">
+        <div class="map"><iframe src={mapSrc} style="border:0;width:100%;height:100%;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="景觀丸藝 位置"></iframe></div>
+        <p class="map-note pv-serif">_地圖位置待 Ivy 提供地址後替換_</p>
+      </div>
+    </div>
+  </section>
+</PreviewLayout>
+
+<style>
+  .contact { padding: var(--s-24) 0; }
+  .c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-16); align-items: start; }
+  .title { font-size: clamp(2.8rem, 6vw, 5rem); margin-bottom: var(--s-5); }
+  .sub { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--ink); margin: 0; max-width: 440px; }
+  .info { margin: 0; display: grid; grid-template-columns: 88px 1fr; row-gap: var(--s-5); column-gap: var(--s-6); }
+  .info dt { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); padding-top: 5px; }
+  .info dd { margin: 0; color: var(--ink); font-size: 1.05rem; }
+  .mail { background-image: linear-gradient(var(--accent), var(--accent)); background-position: 0 100%; background-repeat: no-repeat; background-size: 0 1px; transition: background-size var(--d) var(--ease); color: var(--ink); }
+  .mail:hover { background-size: 100% 1px; color: var(--accent-hover); }
+  .c-map { position: sticky; top: 120px; }
+  .map { aspect-ratio: 4/3; border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--border); filter: grayscale(0.3) contrast(0.95) brightness(0.85); }
+  .map-note { margin: var(--s-3) 0 0; font-size: 0.92rem; color: var(--ink-faint); text-align: center; }
+  @media (max-width: 880px) { .c-grid { grid-template-columns: 1fr; gap: var(--s-10); } .c-map { position: static; } }
+</style>

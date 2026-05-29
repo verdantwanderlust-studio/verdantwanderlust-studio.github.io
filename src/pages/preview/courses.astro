@@ -1,0 +1,61 @@
+---
+/* 詳情 · Detail — 草稿 nav 第 3 項「詳情」內容未定(Q2 未答)。
+   暫做「工作坊 + 商業合作」的詳情頁,對齊首頁三入口的後兩張。內容 placeholder。*/
+import PreviewLayout from '~/layouts/PreviewLayout.astro';
+
+const blocks = [
+  {
+    no: '01', zh: '工作坊', en: 'Workshop',
+    lede: '苔蘚生態瓶手作課程,從採集、洗石、鋪土到植入,帶一個會呼吸的瓶子回家。',
+    items: ['_課程長度 / 人數待 Ivy 填_', '_單人 / 包班價格待填_', '_適合對象:新手 / 親子 / 企業團體_'],
+  },
+  {
+    no: '02', zh: '商業合作', en: 'Collaboration',
+    lede: '空間綠化、品牌訂製生態瓶、展覽與櫥窗陳設。為品牌做一件會生長的綠色物件。',
+    items: ['_合作型態:空間 / 品牌禮品 / 展示_', '_過往合作對象待 Ivy 填_', '_洽詢方式 → 聯繫頁_'],
+  },
+];
+---
+<PreviewLayout title="詳情 · 景觀丸藝" active="courses">
+  <section class="detail-head">
+    <div class="pv-wrap">
+      <p class="pv-kicker">Detail · 詳情</p>
+      <h1 class="pv-display title">我們在做的事</h1>
+      <p class="sub pv-serif">作品集之外,景觀丸藝也開課、接合作。</p>
+    </div>
+  </section>
+
+  <section class="blocks">
+    <div class="pv-wrap">
+      {blocks.map(b => (
+        <article class="block">
+          <div class="b-no">{b.no}</div>
+          <div class="b-body">
+            <h2 class="b-title"><span class="zh pv-serif">{b.zh}</span><span class="en">{b.en}</span></h2>
+            <p class="b-lede">{b.lede}</p>
+            <ul class="b-list">{b.items.map(it => <li>{it}</li>)}</ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</PreviewLayout>
+
+<style>
+  .detail-head { padding: var(--s-24) 0 var(--s-12); border-bottom: 1px solid var(--border); }
+  .title { font-size: clamp(2.6rem, 6vw, 4.5rem); margin-bottom: var(--s-5); }
+  .sub { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--ink); margin: 0; }
+
+  .blocks { padding: var(--s-12) 0 0; }
+  .block { display: grid; grid-template-columns: 120px 1fr; gap: var(--s-8); padding: var(--s-12) 0; border-bottom: 1px solid var(--border); }
+  .block:last-child { border-bottom: none; }
+  .b-no { font-family: var(--font-display); font-style: italic; font-size: 3rem; color: var(--accent); line-height: 1; }
+  .b-title { display: flex; align-items: baseline; gap: var(--s-4); margin: 0 0 var(--s-4); }
+  .b-title .zh { font-size: 2.2rem; font-weight: 500; color: var(--ink); }
+  .b-title .en { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .b-lede { font-size: 1.1rem; color: var(--ink); max-width: 560px; margin: 0 0 var(--s-6); line-height: 1.6; }
+  .b-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--s-3); }
+  .b-list li { color: var(--ink-muted); font-size: 0.92rem; padding-left: var(--s-5); position: relative; }
+  .b-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+  @media (max-width: 720px) { .block { grid-template-columns: 1fr; gap: var(--s-4); } .b-no { font-size: 2.2rem; } }
+</style>
