@@ -72,7 +72,7 @@ raw-images/
 
 ```
 請你做這幾步:
-1. 開瀏覽器到 github.com/verdantwanderlust-studio/verdant-wanderlust
+1. 開瀏覽器到 github.com/verdantwanderlust-studio/verdantwanderlust-studio.github.io
 2. 點上方檔案樹,進到 `raw-images/portfolio/dazhi-balcony/` 資料夾
    (如果這個資料夾不存在,先點 "Add file" → "Create new file" → 路徑輸 `raw-images/portfolio/dazhi-balcony/.gitkeep`,Commit changes)
 3. 進到資料夾後,點 "Add file" → "Upload files"
