@@ -1,14 +1,37 @@
 ---
 import Base from '~/layouts/Base.astro';
+import { Image } from 'astro:assets';
 
 // 對齊 Ivy 草稿 image 1:
 // 1. About 簡介橫條(全寬,點 → /about)
 // 2. 三大入口卡(作品集 / 工作坊 / 商業合作,雙語,target=_blank)
-// 3. 作品集卡內極簡 marquee
-// 4. 中段 5 dot carousel(內容等 Q2 確認,先 placeholder)
+// 3. 作品集卡內極簡 marquee(現:9 張作品縮圖)
+// 4. 中段 4 dot carousel(現:Ivy 長型生態照)
 // 5. 底部 About / Contact CTA(Ivy 說 footer 設計她還在思考)
 
+// TODO 文案校準:Ivy 是 terrarium / 生態瓶工作室,目前 lede / desc 偏「大型景觀」需要 Ivy 確認用詞
 const aboutLede = '景觀設計、庭園諮詢、長期監造維護。我們相信好的庭園,是一段慢慢長出來的關係。';
+
+// 9 張作品縮圖(同 Portfolio)— 給作品集卡的 marquee 用
+import t01 from '~/assets/portfolio/01-terrarium-vw.jpg';
+import t02 from '~/assets/portfolio/02.jpg';
+import t03 from '~/assets/portfolio/03.jpg';
+import t04 from '~/assets/portfolio/04.jpg';
+import t05 from '~/assets/portfolio/05.jpg';
+import t06 from '~/assets/portfolio/06.jpg';
+import t07 from '~/assets/portfolio/07-lion-king.png';
+import t08 from '~/assets/portfolio/08-lion-king.png';
+import t09 from '~/assets/portfolio/09-lion-king.png';
+
+const marqueeImgs = [t01, t02, t03, t04, t05, t06, t07, t08, t09];
+
+// 4 張長型 featured 照
+import f01 from '~/assets/featured/01.jpg';
+import f02 from '~/assets/featured/02.jpg';
+import f03 from '~/assets/featured/03.jpg';
+import f04 from '~/assets/featured/04.jpg';
+
+const featuredImgs = [f01, f02, f03, f04];
 
 const entries = [
   {
@@ -33,9 +56,6 @@ const entries = [
     hasMarquee: false,
   },
 ];
-
-// marquee placeholder(等 Ivy 給作品照後替換)
-const marqueeItems = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 ---
 <Base
   title="景觀丸藝 / Verdant Wanderlust"
@@ -67,8 +87,18 @@ const marqueeItems = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
                 {e.hasMarquee ? (
                   <div class="marquee" aria-hidden="true">
                     <div class="marquee-track">
-                      {[...marqueeItems, ...marqueeItems].map(t => (
-                        <span class="m-tile">{t}</span>
+                      {[...marqueeImgs, ...marqueeImgs].map((img, i) => (
+                        <span class="m-tile">
+                          <Image
+                            src={img}
+                            alt=""
+                            width={160}
+                            height={160}
+                            densities={[1, 2]}
+                            loading={i < 6 ? 'eager' : 'lazy'}
+                            class="m-img"
+                          />
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -88,17 +118,31 @@ const marqueeItems = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     </div>
   </section>
 
-  <!-- 中段 5 dot carousel(內容待 Ivy 確認) -->
+  <!-- 中段 carousel:Ivy 長型照(從 Drive 同步)
+       Q2 還沒答完 — 等 Ivy 確認這 4 張要不要配文字 / 換內容方向。
+       目前只是靜態擺第 1 張,dot 切換 JS 還沒寫(留給之後 Embla island)。-->
   <section class="featured">
     <div class="column">
       <p class="kicker">FEATURED</p>
-      <h2 class="muted-h">(這區塊內容待 Ivy 確認 — 可能是 selected work / 媒體報導 / 客戶見證)</h2>
-      <div class="carousel" aria-hidden="true">
+      <div class="carousel">
         <div class="slides">
-          {[1,2,3,4,5].map(i => <div class="slide" data-i={i}>0{i}</div>)}
+          {featuredImgs.map((img, i) => (
+            <div class={`slide ${i === 0 ? 'active' : ''}`} data-i={i + 1}>
+              <Image
+                src={img}
+                alt=""
+                width={1400}
+                densities={[1, 2]}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                class="featured-img"
+              />
+            </div>
+          ))}
         </div>
         <div class="dots">
-          {[1,2,3,4,5].map(i => <button class={`dot ${i === 1 ? 'active' : ''}`} aria-label={`第 ${i} 張`} data-i={i}></button>)}
+          {featuredImgs.map((_, i) => (
+            <button class={`dot ${i === 0 ? 'active' : ''}`} aria-label={`第 ${i + 1} 張`} data-i={i + 1}></button>
+          ))}
         </div>
       </div>
     </div>
@@ -240,10 +284,14 @@ const marqueeItems = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     height: 80px;
     background: var(--border);
     border-radius: var(--r-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--subtle);
+    overflow: hidden;
+    display: block;
+  }
+  .m-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   @keyframes marquee-scroll {
     from { transform: translateX(0); }
@@ -264,27 +312,32 @@ const marqueeItems = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     max-width: 720px;
   }
   .carousel {
-    border: 1px dashed var(--border-strong);
+    border: 1px solid var(--border);
     border-radius: var(--r-md);
-    padding: var(--s-8);
+    padding: var(--s-6);
     background: var(--surface);
   }
   .slides {
-    display: flex; gap: var(--s-3);
-    overflow-x: hidden;
+    position: relative;
     margin-bottom: var(--s-6);
+    border-radius: var(--r-sm);
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: var(--surface-alt);
   }
   .slide {
-    flex: 0 0 100%;
-    aspect-ratio: 21 / 9;
-    background: var(--surface-alt);
-    border-radius: var(--r-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 2rem;
-    color: var(--border-strong);
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--dur-enter) var(--ease);
   }
-  .slide:nth-child(n+2) { display: none; }
+  .slide.active { opacity: 1; }
+  .featured-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .dots {
     display: flex; gap: var(--s-2); justify-content: center;
   }

@@ -19,3 +19,8 @@ npm-debug.log*
 
 # Cloudflare Pages
 .wrangler/
+
+# Raw originals from Ivy (Drive sync) — 與 src/assets/ 重複,不進 repo
+# workflow:從 Drive 下載 → raw-images/ 留本地原檔 → cp 到 src/assets/(Astro 處理)
+raw-images/*
+!raw-images/.gitkeep
