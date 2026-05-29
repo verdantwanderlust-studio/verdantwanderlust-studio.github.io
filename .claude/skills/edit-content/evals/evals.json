@@ -1,0 +1,23 @@
+{
+  "skill_name": "edit-content",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "首頁那句「專業景觀設計服務」太官腔了,幫我改得有溫度一點",
+      "expected_output": "AI 先一句話確認要改哪頁哪段(echo 回去),找到 content/pages/home.mdx,給 2-3 個語氣不同的版本讓 Ivy 挑,不只給一個改法,改完問下一步(preview 或直接上線)。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "about 頁我想在自我介紹後面加一句說我做這行 12 年了,前面那段不要動",
+      "expected_output": "AI 確認是 content/pages/about.mdx,只在指定位置加一句、嚴格保留 Ivy 說「不要動」的前段,加之前先把要加的句子(2-3 版)給她看過,確認再寫。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "服務頁那三個服務,我想讓它變成點了會展開的那種,可以嗎?",
+      "expected_output": "AI 辨識出「點了會展開」是互動元件 / component 改動,不是文字內容,超出 edit-content 邊界,回覆需要找 Jason,並提議幫她寫需求摘要。不嘗試自己改。",
+      "files": []
+    }
+  ]
+}

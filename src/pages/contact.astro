@@ -1,0 +1,84 @@
+---
+import Base from '~/layouts/Base.astro';
+
+// workshop 後替換
+const email = 'hello@verdantwanderlust.com';
+const phone = '+886 _ ____ ____';
+const address = '_工作室地址 / 服務區域_';
+---
+<Base title="Contact · 景觀丸藝" description="與我們聯絡。">
+  <section class="column page">
+    <p class="kicker">Contact</p>
+    <h1>聯絡我們</h1>
+    <p class="lede">寫一封信。我們會回。</p>
+
+    <dl class="info">
+      <dt>Email</dt>
+      <dd><a href={`mailto:${email}`}>{email}</a></dd>
+
+      <dt>電話</dt>
+      <dd>{phone}</dd>
+
+      <dt>工作室</dt>
+      <dd>{address}</dd>
+    </dl>
+
+    <p class="note">_一段簡短的「我們會回信的速度 / 服務區域 / 預約方式」說明_</p>
+  </section>
+</Base>
+
+<style>
+  .page {
+    padding: var(--s-16) 0 var(--s-24);
+    max-width: 720px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-3xl);
+    letter-spacing: var(--track-tight);
+    line-height: var(--lh-tight);
+    margin: var(--s-3) 0 var(--s-6) 0;
+  }
+  .info {
+    margin: var(--s-16) 0 0 0;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    row-gap: var(--s-6);
+    column-gap: var(--s-8);
+  }
+  dt {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--subtle);
+    padding-top: 4px;
+  }
+  dd {
+    margin: 0;
+    color: var(--ink);
+    font-size: var(--t-lg);
+  }
+  dd a {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1px;
+    transition: background-size var(--dur-enter) var(--ease);
+    border-bottom: none;
+  }
+  dd a:hover {
+    background-size: 100% 1px;
+    border-bottom: none;
+  }
+  .note {
+    margin-top: var(--s-16);
+    color: var(--muted);
+    font-size: var(--t-sm);
+  }
+  @media (max-width: 560px) {
+    .info { grid-template-columns: 1fr; }
+    dt { padding-top: 0; }
+  }
+</style>

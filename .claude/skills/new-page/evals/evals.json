@@ -1,0 +1,23 @@
+{
+  "skill_name": "new-page",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "作品集想加一個新案例,2026 春天大安區的一個陽台改造",
+      "expected_output": "AI 辨識為 B 作品集子項,確認 slug(英文 dash)、標題、內容方向三要素,用 template 在 content/portfolio/ 建 MDX,沒素材就寫初稿給她看過再寫,接著走 add-photo 配圖,最後走 publish preview。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我想加一頁專門講我的花園維護年費方案",
+      "expected_output": "AI 辨識為 A 全新頁,確認 slug/標題/內容三要素,在 content/pages/ 建 MDX,寫初稿給她改,問要不要進主選單 nav,最後走 publish preview。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我想加一個頁面讓客人可以線上預約諮詢",
+      "expected_output": "AI 辨識出「線上預約」是含表單 / 功能的頁面,超出 new-page 邊界,回覆需要找 Jason,並提議寫需求摘要。不自己建這種功能頁。",
+      "files": []
+    }
+  ]
+}

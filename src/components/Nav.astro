@@ -1,0 +1,95 @@
+---
+const pathname = Astro.url.pathname;
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/contact', label: 'Contact' },
+];
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+<nav class="top">
+  <div class="column wrap">
+    <a class="brand" href="/" transition:name="brand-mark">
+      <span class="mark">VW</span>
+      <span class="name">景觀丸藝</span>
+    </a>
+    <ul class="links">
+      {links.slice(1).map(l => (
+        <li>
+          <a href={l.href} class:list={[{ active: isActive(l.href) }]}>{l.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(245, 241, 232, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .wrap {
+    padding: 14px var(--s-6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-6);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    color: var(--ink);
+  }
+  .brand:hover { border: none; }
+  .mark {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--r-sm);
+    background: var(--accent);
+    color: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: var(--track-tight);
+    font-size: 1.05rem;
+  }
+  .links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--s-6);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .links a {
+    color: var(--muted);
+    border-bottom: none;
+    transition: color var(--dur-micro) var(--ease);
+  }
+  .links a:hover { color: var(--accent); }
+  .links a.active { color: var(--accent); }
+  @media (max-width: 640px) {
+    .links { gap: var(--s-4); font-size: 0.7rem; }
+    .name { display: none; }
+  }
+</style>

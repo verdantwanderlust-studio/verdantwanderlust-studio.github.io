@@ -1,0 +1,99 @@
+---
+import Base from '~/layouts/Base.astro';
+
+// workshop 後替換
+const services = [
+  { n: '01', name: '諮詢', desc: '_一段定義_', scenario: '_典型場景:屋主帶著一塊基地來找我們 ..._' },
+  { n: '02', name: '設計', desc: '_一段定義_', scenario: '_典型場景:..._' },
+  { n: '03', name: '監造', desc: '_一段定義_', scenario: '_典型場景:..._' },
+  { n: '04', name: '維護', desc: '_一段定義_', scenario: '_典型場景:..._' },
+];
+---
+<Base title="Services · 景觀丸藝" description="景觀設計 · 庭園諮詢 · 監造維護。">
+  <section class="column page">
+    <p class="kicker">Services</p>
+    <h1>我們做這幾件事</h1>
+    <p class="lede">每個案場走的路線都不一樣,以下是 4 種常見起手式。</p>
+
+    <ul class="list">
+      {services.map(s => (
+        <li class="row">
+          <div class="left">
+            <span class="n">{s.n}</span>
+            <h3 class="name">{s.name}</h3>
+          </div>
+          <div class="right">
+            <p class="desc">{s.desc}</p>
+            <p class="scenario">{s.scenario}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .page {
+    padding: var(--s-16) 0 var(--s-24);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-3xl);
+    letter-spacing: var(--track-tight);
+    line-height: var(--lh-tight);
+    margin: var(--s-3) 0 var(--s-6) 0;
+  }
+  .list {
+    list-style: none;
+    margin: var(--s-16) 0 0 0;
+    padding: 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--s-12);
+    padding: var(--s-12) 0;
+    border-top: 1px solid var(--border);
+    border-left: 4px solid transparent;
+    padding-left: var(--s-6);
+    transition: border-color 200ms var(--ease);
+  }
+  .row:last-child { border-bottom: 1px solid var(--border); }
+  .row:hover { border-left-color: var(--accent); }
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+  .n {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--subtle);
+    letter-spacing: 0.14em;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--t-xl);
+    letter-spacing: var(--track-tight);
+    color: var(--ink);
+    margin: 0;
+  }
+  .desc {
+    margin: 0 0 var(--s-4) 0;
+    color: var(--ink);
+  }
+  .scenario {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--t-sm);
+    line-height: 1.75;
+  }
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: var(--s-4);
+    }
+  }
+</style>

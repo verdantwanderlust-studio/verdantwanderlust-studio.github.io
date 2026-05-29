@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你的網站,用講話的方式維護 — 景觀丸藝 官網</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2F4A3A;
+    --forest-deep: #1F3329;
+    --moss: #5A7A5F;
+    --sage: #8FA889;
+    --leaf: #B8CDA9;
+    --cream: #FAF6EE;
+    --cream-deep: #F2EADB;
+    --terra: #C68B5C;
+    --terra-light: #E0B58E;
+    --clay: #A55E3F;
+    --text: #2A3D31;
+    --text-muted: #5A6B5F;
+    --text-soft: #8B9A8E;
+    --border: #DDD3BD;
+    --paper: #FFFEFB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans TC', 'Raleway', sans-serif;
+    background: #1A2620;
+    color: var(--text);
+    overflow: hidden;
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0; left: 0;
+    display: none;
+    padding: 70px 110px;
+    overflow: hidden;
+  }
+  .slide.active { display: flex; }
+
+  /* Backgrounds */
+  .bg-forest {
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(143,168,137,0.15), transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(198,139,92,0.12), transparent 50%),
+      linear-gradient(135deg, #1F3329 0%, #2F4A3A 60%, #3A5947 100%);
+    color: var(--cream);
+  }
+  .bg-cream {
+    background: var(--cream);
+    color: var(--text);
+  }
+  .bg-paper {
+    background: var(--paper);
+    color: var(--text);
+  }
+  .bg-warm {
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(224,181,142,0.25), transparent 60%),
+      linear-gradient(135deg, #F2EADB 0%, #FAF6EE 100%);
+    color: var(--text);
+  }
+  .bg-deep {
+    background: linear-gradient(135deg, #1F3329 0%, #243A2D 100%);
+    color: var(--cream);
+  }
+
+  /* Typography */
+  h1, .display {
+    font-family: 'Noto Serif TC', 'Lora', serif;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  h1 { font-size: 84px; }
+  h2 {
+    font-family: 'Noto Serif TC', 'Lora', serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+  }
+  h3 {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 1.4;
+    opacity: 0.85;
+  }
+  .body-text {
+    font-size: 24px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .small-text {
+    font-size: 20px;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+  .label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    opacity: 0.55;
+  }
+  .meta {
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    opacity: 0.65;
+    letter-spacing: 1px;
+  }
+
+  /* Layout */
+  .center-stack {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 24px;
+  }
+  .left-stack {
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+    align-items: stretch;
+  }
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 28px;
+    width: 100%;
+    align-items: stretch;
+  }
+  .four-col {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  /* Slide header */
+  .slide-header { margin-bottom: 32px; width: 100%; }
+  .slide-header .label { display: block; margin-bottom: 12px; }
+  .slide-header h2 { font-size: 50px; }
+
+  /* Cards */
+  .card {
+    background: var(--paper);
+    border-radius: 14px;
+    padding: 32px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 0 rgba(47,74,58,0.04), 0 8px 28px rgba(47,74,58,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card-soft {
+    background: rgba(255,254,251,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 32px;
+    border: 1px solid rgba(143,168,137,0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card-dark {
+    background: rgba(255,254,251,0.06);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 32px;
+    border: 1px solid rgba(255,254,251,0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .card h3, .card-soft h3 { color: var(--forest); }
+  .card-dark h3 { color: var(--terra-light); }
+
+  /* Numbered icon */
+  .num-circle {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-family: 'Lora', serif;
+    font-weight: 600;
+    font-size: 22px;
+    background: var(--forest);
+    color: var(--cream);
+    flex-shrink: 0;
+  }
+  .bg-forest .num-circle, .bg-deep .num-circle {
+    background: var(--terra);
+    color: var(--paper);
+  }
+
+  /* Tags / chips */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .chip-green { background: rgba(90,122,95,0.15); color: var(--forest); }
+  .chip-terra { background: rgba(198,139,92,0.18); color: var(--clay); }
+  .chip-cream { background: var(--cream-deep); color: var(--text-muted); }
+  .chip-dark { background: rgba(184,205,169,0.2); color: var(--leaf); }
+
+  /* Lists */
+  ul.clean { list-style: none; padding: 0; }
+  ul.clean li {
+    font-size: 22px;
+    padding: 10px 0;
+    padding-left: 28px;
+    position: relative;
+    line-height: 1.5;
+  }
+  ul.clean li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 22px;
+    width: 8px;
+    height: 8px;
+    background: var(--moss);
+    border-radius: 50%;
+  }
+  .bg-forest ul.clean li::before,
+  .bg-deep ul.clean li::before {
+    background: var(--terra-light);
+  }
+
+  /* Chat bubbles */
+  .chat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .bubble-you, .bubble-ai {
+    padding: 16px 22px;
+    border-radius: 18px;
+    font-size: 21px;
+    line-height: 1.5;
+    max-width: 85%;
+  }
+  .bubble-you {
+    background: var(--cream-deep);
+    color: var(--text);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .bubble-ai {
+    background: var(--forest);
+    color: var(--cream);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .bubble-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 4px;
+  }
+  .bubble-you .bubble-label { text-align: right; }
+
+  /* Flow */
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+    width: 100%;
+  }
+  .flow-step {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 18px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(47,74,58,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .flow-step .step-icon {
+    width: 56px; height: 56px;
+    background: var(--cream-deep);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--forest);
+  }
+  .flow-step h4 {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--forest);
+  }
+  .flow-step p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .flow-arrow {
+    align-self: center;
+    color: var(--sage);
+    font-family: 'Lora', serif;
+  }
+
+  /* Big quote */
+  .big-quote {
+    font-family: 'Noto Serif TC', 'Lora', serif;
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 1.35;
+    max-width: 1100px;
+    text-align: center;
+    letter-spacing: -0.5px;
+  }
+  .quote-mark {
+    font-family: 'Lora', serif;
+    font-size: 120px;
+    line-height: 0.5;
+    color: var(--terra);
+    opacity: 0.4;
+  }
+
+  /* Decorative leaf SVG accent */
+  .leaf-accent {
+    position: absolute;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+  .leaf-tr { top: -60px; right: -40px; transform: rotate(20deg); }
+  .leaf-bl { bottom: -80px; left: -60px; transform: rotate(-160deg); }
+
+  /* Page number */
+  .page-num {
+    position: absolute;
+    bottom: 36px;
+    right: 60px;
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.4;
+    font-feature-settings: 'tnum';
+    letter-spacing: 1px;
+  }
+
+  /* Section bar (subtle) */
+  .section-bar {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--forest), var(--moss), var(--terra));
+    opacity: 0.7;
+  }
+
+  /* Highlight */
+  .highlight-terra { color: var(--terra); }
+  .highlight-leaf { color: var(--leaf); }
+  .highlight-forest { color: var(--forest); }
+  .underline-soft {
+    background: linear-gradient(180deg, transparent 65%, rgba(198,139,92,0.35) 65%);
+    padding: 0 4px;
+  }
+
+  /* Stat */
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Lora', serif;
+    font-size: 64px;
+    font-weight: 600;
+    color: var(--forest);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+  .bg-forest .stat-num, .bg-deep .stat-num { color: var(--terra-light); }
+  .bg-forest .stat-label, .bg-deep .stat-label { color: var(--leaf); }
+
+  /* Two-side compare */
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .compare-side {
+    padding: 28px;
+  }
+  .compare-side.you-can {
+    border-right: 1px solid var(--border);
+  }
+  .compare-side .side-label {
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  /* Nav hint */
+  .nav-hint {
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: rgba(255,254,251,0.3);
+    z-index: 100;
+  }
+
+  /* Todo list (today's 5 things) */
+  .todo-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 28px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 10px rgba(47,74,58,0.04);
+  }
+  .todo-row .todo-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--cream-deep);
+    color: var(--forest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .todo-row .todo-content h4 {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 4px;
+  }
+  .todo-row .todo-content p {
+    font-size: 17px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .todo-row .todo-time {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    color: var(--terra);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* Cheatsheet table */
+  .cheat-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .cheat-table th {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 16px 22px;
+    text-align: left;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .cheat-table td {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--cream-deep);
+    font-size: 20px;
+    vertical-align: top;
+  }
+  .cheat-table tr:last-child td { border-bottom: none; }
+  .cheat-table tr:nth-child(even) td { background: rgba(242,234,219,0.35); }
+  .cheat-table .you-said { color: var(--text); }
+  .cheat-table .ai-does { color: var(--text-muted); }
+
+  @media (max-width: 1400px) {
+    .slide { padding: 56px 80px; }
+    h1 { font-size: 68px; }
+    h2 { font-size: 44px; }
+    .slide-header h2 { font-size: 40px; }
+    .big-quote { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ============================================ -->
+<!-- SLIDE 1: 封面 -->
+<!-- ============================================ -->
+<div class="slide bg-forest center-stack active" id="s1">
+  <svg class="leaf-accent leaf-tr" width="600" height="600" viewBox="0 0 100 100">
+    <path d="M50 10 Q 80 30 75 60 Q 65 85 50 90 Q 35 85 25 60 Q 20 30 50 10 Z M50 15 L 50 85" fill="none" stroke="var(--leaf)" stroke-width="0.5"/>
+  </svg>
+  <svg class="leaf-accent leaf-bl" width="500" height="500" viewBox="0 0 100 100">
+    <path d="M50 10 Q 80 30 75 60 Q 65 85 50 90 Q 35 85 25 60 Q 20 30 50 10 Z M50 15 L 50 85" fill="none" stroke="var(--leaf)" stroke-width="0.5"/>
+  </svg>
+
+  <span class="label" style="color:var(--leaf);">景觀丸藝 官網 · Onboarding</span>
+  <h1 style="max-width:1100px; font-size:88px; color:var(--cream);">
+    你的網站,<br>用<span class="highlight-terra">講話</span>的方式維護
+  </h1>
+  <p class="subtitle" style="max-width:760px; margin-top:20px; color:var(--leaf);">
+    打開 AI 助理,跟它說你想改什麼,<br>它做、你看、你決定要不要發布。
+  </p>
+  <div style="margin-top:48px; display:flex; gap:20px; align-items:center;">
+    <span class="meta" style="color:var(--cream); opacity:0.7;">2026.05</span>
+    <span style="color:var(--terra); opacity:0.5;">·</span>
+    <span class="meta" style="color:var(--cream); opacity:0.7;">給 Ivy</span>
+  </div>
+  <div class="page-num" style="color:var(--leaf);">01 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 2: 一句話總結 -->
+<!-- ============================================ -->
+<div class="slide bg-cream center-stack" id="s2">
+  <div class="section-bar"></div>
+  <span class="label highlight-forest">這是什麼</span>
+  <div class="quote-mark">"</div>
+  <p class="big-quote">
+    你不用學任何工具。<br>
+    你只要<span class="underline-soft">跟 AI 說你想改什麼</span>,<br>
+    它就會幫你改。
+  </p>
+  <div style="margin-top:40px; display:flex; gap:32px; align-items:center; color:var(--text-muted); font-size:20px;">
+    <span>不用打開任何程式</span>
+    <span style="color:var(--terra);">·</span>
+    <span>不用記任何指令</span>
+    <span style="color:var(--terra);">·</span>
+    <span>不用怕弄壞</span>
+  </div>
+  <div class="page-num">02 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 3: 你能做的 4 件事 -->
+<!-- ============================================ -->
+<div class="slide bg-paper left-stack" id="s3">
+  <div class="section-bar"></div>
+  <div class="slide-header">
+    <span class="label highlight-forest">你能自己做的事</span>
+    <h2>四種日常維護</h2>
+    <p class="body-text" style="color:var(--text-muted); margin-top:8px;">
+      這四種事情,你跟 AI 講就好,我不用在場。
+    </p>
+  </div>
+  <div class="four-col">
+    <div class="card">
+      <div class="num-circle">01</div>
+      <h3 style="font-size:24px;">改文字</h3>
+      <p class="small-text" style="color:var(--text-muted);">
+        標題、介紹、案例描述、聯絡資訊。任何頁面上看到的字,你都能改。
+      </p>
+      <div style="margin-top:auto;">
+        <span class="chip chip-green">edit-content</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="num-circle">02</div>
+      <h3 style="font-size:24px;">換照片</h3>
+      <p class="small-text" style="color:var(--text-muted);">
+        把新拍的照片傳給 AI,它幫你優化、放到對的位置。舊照片也能換。
+      </p>
+      <div style="margin-top:auto;">
+        <span class="chip chip-green">add-photo</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="num-circle">03</div>
+      <h3 style="font-size:24px;">調樣式</h3>
+      <p class="small-text" style="color:var(--text-muted);">
+        顏色換深一點、字大一點、間距鬆一點。視覺上的小調整。
+      </p>
+      <div style="margin-top:auto;">
+        <span class="chip chip-green">tweak-style</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="num-circle">04</div>
+      <h3 style="font-size:24px;">加新頁面</h3>
+      <p class="small-text" style="color:var(--text-muted);">
+        新案例、新服務項目、新文章。AI 用既有的版型幫你加。
+      </p>
+      <div style="margin-top:auto;">
+        <span class="chip chip-green">new-page</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">03 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 4: 對話範例 -->
+<!-- ============================================ -->
+<div class="slide bg-warm left-stack" id="s4">
+  <div class="section-bar"></div>
+  <div class="slide-header">
+    <span class="label highlight-forest">對話範例</span>
+    <h2>怎麼跟 AI 講話</h2>
+    <p class="body-text" style="color:var(--text-muted); margin-top:8px;">
+      不用客氣、不用「請、謝謝、麻煩了」。像跟朋友交代事情就好。
+    </p>
+  </div>
+  <div class="three-col">
+    <div class="card-soft">
+      <span class="chip chip-terra">改文字</span>
+      <div class="chat-row" style="margin-top:8px;">
+        <div>
+          <div class="bubble-label">YOU</div>
+          <div class="bubble-you">
+            首頁那句「打造美好景觀」太硬了,改成跟我講話的口氣。
+          </div>
+        </div>
+        <div>
+          <div class="bubble-label">AI</div>
+          <div class="bubble-ai">
+            好。我想到「把你想要的樣子,種進你的院子裡」可以嗎?
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-soft">
+      <span class="chip chip-terra">換照片</span>
+      <div class="chat-row" style="margin-top:8px;">
+        <div>
+          <div class="bubble-label">YOU</div>
+          <div class="bubble-you">
+            首頁那張舊的我不喜歡了。換成這張(附圖)。
+          </div>
+        </div>
+        <div>
+          <div class="bubble-label">AI</div>
+          <div class="bubble-ai">
+            收到。新照片我幫你優化了,放上去前你先看一下大小有沒有 OK?
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-soft">
+      <span class="chip chip-terra">微調</span>
+      <div class="chat-row" style="margin-top:8px;">
+        <div>
+          <div class="bubble-label">YOU</div>
+          <div class="bubble-you">
+            服務頁的字看起來太小,老人家看不到。
+          </div>
+        </div>
+        <div>
+          <div class="bubble-label">AI</div>
+          <div class="bubble-ai">
+            好,我把內文從 16 調到 18,標題也加一點。改完給你 preview。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">04 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 5: 流程圖 -->
+<!-- ============================================ -->
+<div class="slide bg-cream left-stack" id="s5">
+  <div class="section-bar"></div>
+  <div class="slide-header">
+    <span class="label highlight-forest">完整流程</span>
+    <h2>從一句話到上線,大概這樣</h2>
+  </div>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="step-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h4>1. 你說</h4>
+      <p>用平常講話的方式告訴 AI 你想改什麼</p>
+    </div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">
+      <div class="step-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4l3 2"/>
+        </svg>
+      </div>
+      <h4>2. AI 確認</h4>
+      <p>「我要做 X,你 OK 嗎?」 — 你說 OK 它才動</p>
+    </div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">
+      <div class="step-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </div>
+      <h4>3. AI 改</h4>
+      <p>幾秒鐘內改好,只給你看「預覽網址」</p>
+    </div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">
+      <div class="step-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      </div>
+      <h4>4. 你看</h4>
+      <p>preview 上看起來 OK,告訴 AI「發布」</p>
+    </div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="background:var(--forest); border-color:var(--forest);">
+      <div class="step-icon" style="background:rgba(255,254,251,0.15); color:var(--terra-light);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h4 style="color:var(--cream);">5. 上線</h4>
+      <p style="color:var(--leaf);">30-60 秒後,真網站更新</p>
+    </div>
+  </div>
+  <div class="card-soft" style="margin-top:32px; max-width:900px; align-self:center; text-align:center;">
+    <p class="body-text" style="font-size:22px;">
+      <strong style="color:var(--forest);">每一步都是你決定。</strong>
+      你不點頭,什麼都不會發生。
+    </p>
+  </div>
+  <div class="page-num">05 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 6: 一個完整的例子 -->
+<!-- ============================================ -->
+<div class="slide bg-paper left-stack" id="s6">
+  <div class="section-bar"></div>
+  <div class="slide-header">
+    <span class="label highlight-forest">完整對話 · 場景</span>
+    <h2>「幫我把首頁標題換掉」</h2>
+  </div>
+  <div class="two-col" style="gap:48px;">
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div>
+        <div class="bubble-label">YOU · 14:32</div>
+        <div class="bubble-you">首頁那個「景觀設計」聽起來太冷了,我想換成「讓你的院子,變成你最想待的地方」。</div>
+      </div>
+      <div>
+        <div class="bubble-label">AI · 14:32</div>
+        <div class="bubble-ai">
+          好。我要做的事:把首頁 Hero 區的主標從「景觀設計」改成「讓你的院子,變成你最想待的地方」。<br>你 OK 嗎?
+        </div>
+      </div>
+      <div>
+        <div class="bubble-label">YOU · 14:33</div>
+        <div class="bubble-you">OK</div>
+      </div>
+      <div>
+        <div class="bubble-label">AI · 14:33</div>
+        <div class="bubble-ai">
+          改好了。預覽:<br>
+          <span style="opacity:0.7; font-family:'Lora', monospace; font-size:18px;">preview-a3f.ivy-landscape.pages.dev</span><br>
+          30-60 秒後可以看到。看完跟我說。
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div>
+        <div class="bubble-label">YOU · 14:35</div>
+        <div class="bubble-you">看了,可以。但我想字再大一點。</div>
+      </div>
+      <div>
+        <div class="bubble-label">AI · 14:35</div>
+        <div class="bubble-ai">
+          好。我把主標從 64 調到 76,你看看。
+        </div>
+      </div>
+      <div>
+        <div class="bubble-label">YOU · 14:37</div>
+        <div class="bubble-you">完美。發布。</div>
+      </div>
+      <div>
+        <div class="bubble-label">AI · 14:37</div>
+        <div class="bubble-ai">
+          已經發布了。30-60 秒後,你的客人在 ivy-landscape.com 上會看到新版本。
+        </div>
+      </div>
+      <div class="card-soft" style="background:rgba(143,168,137,0.15); border-color:var(--sage); padding:20px; margin-top:8px;">
+        <p class="small-text">
+          <strong style="color:var(--forest);">總共 5 分鐘。</strong>
+          你只打了 4 句話。
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">06 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 7: 不能做的事 -->
+<!-- ============================================ -->
+<div class="slide bg-cream left-stack" id="s7">
+  <div class="section-bar"></div>
+  <div class="slide-header">
+    <span class="label highlight-forest">邊界</span>
+    <h2>什麼時候找我</h2>
+    <p class="body-text" style="color:var(--text-muted); margin-top:8px;">
+      AI 助理是有界線的。下面這些事它不會做,你會看到它跟你說「這要找 Jason」。
+    </p>
+  </div>
+  <div class="compare-row">
+    <div class="compare-side you-can">
+      <span class="chip chip-green side-label">AI 幫你</span>
+      <ul class="clean">
+        <li>改任何頁面的<strong>文字</strong></li>
+        <li><strong>換、加、刪</strong>照片</li>
+        <li>調整<strong>顏色、字級、間距</strong>數字</li>
+        <li>加<strong>新案例</strong>、新服務項目</li>
+        <li>整理<strong>圖片資料夾</strong></li>
+      </ul>
+    </div>
+    <div class="compare-side">
+      <span class="chip chip-terra side-label">找 Jason</span>
+      <ul class="clean">
+        <li>改網站的<strong>版面結構</strong>(layout)</li>
+        <li>加<strong>新功能</strong>(表單、訂閱、付款)</li>
+        <li>網站<strong>打不開</strong>、出現紅色錯誤</li>
+        <li><strong>整體改版</strong>(重新設計)</li>
+        <li>任何讓你<strong>緊張</strong>的請求</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin-top:24px; display:flex; gap:16px; align-items:center; color:var(--text-muted);">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terra);">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M12 16v-4M12 8h.01"/>
+    </svg>
+    <p class="small-text">不確定「這個算不算 AI 能做的」就直接問它。它會老實跟你說「這要找 Jason」,不會亂改。</p>
+  </div>
+  <div class="page-num">07 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 8: 安全機制 -->
+<!-- ============================================ -->
+<div class="slide bg-deep left-stack" id="s8">
+  <svg class="leaf-accent leaf-tr" width="500" height="500" viewBox="0 0 100 100">
+    <path d="M50 10 Q 80 30 75 60 Q 65 85 50 90 Q 35 85 25 60 Q 20 30 50 10 Z" fill="none" stroke="var(--leaf)" stroke-width="0.5"/>
+  </svg>
+  <div class="slide-header">
+    <span class="label" style="color:var(--leaf);">安全機制</span>
+    <h2 style="color:var(--cream);">為什麼<span style="color:var(--terra-light);">不會弄壞</span></h2>
+  </div>
+  <div class="three-col">
+    <div class="card-dark">
+      <div class="num-circle">01</div>
+      <h3 style="font-size:22px;">先確認、後動手</h3>
+      <p class="small-text" style="color:var(--leaf);">
+        AI 動任何東西前一定會說「我要做 X,你 OK 嗎?」。你不點頭,它什麼都不會改。
+      </p>
+    </div>
+    <div class="card-dark">
+      <div class="num-circle">02</div>
+      <h3 style="font-size:22px;">先預覽、後上線</h3>
+      <p class="small-text" style="color:var(--leaf);">
+        改完只給你「preview 網址」,只有你看得到。你說「發布」,客人才看得到新版。
+      </p>
+    </div>
+    <div class="card-dark">
+      <div class="num-circle">03</div>
+      <h3 style="font-size:22px;">隨時救得回來</h3>
+      <p class="small-text" style="color:var(--leaf);">
+        每次改動都有歷史紀錄。發布後不喜歡,跟 AI 說「上一版」就還原了。
+      </p>
+    </div>
+  </div>
+  <div style="margin-top:40px; display:flex; gap:48px; justify-content:center;">
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">需要你記的指令</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3 步</div>
+      <div class="stat-label">確認 → 預覽 → 發布</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">可以還原的次數</div>
+    </div>
+  </div>
+  <div class="page-num" style="color:var(--leaf);">08 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 9: Cheatsheet 句型 -->
+<!-- ============================================ -->
+<div class="slide bg-warm left-stack" id="s9">
+  <div class="section-bar"></div>
+  <div class="slide-header">
+    <span class="label highlight-forest">常用句型</span>
+    <h2>你可以這樣講</h2>
+    <p class="body-text" style="color:var(--text-muted); margin-top:8px;">
+      不用記、不用學。這只是讓你看一下「原來這麼簡單」。
+    </p>
+  </div>
+  <table class="cheat-table">
+    <thead>
+      <tr>
+        <th style="width:50%;">你說</th>
+        <th>AI 會做</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="you-said">「首頁標題改成 OOO」</td>
+        <td class="ai-does">改文字 → 給你 preview → 等你說發布</td>
+      </tr>
+      <tr>
+        <td class="you-said">「我傳一張新照片,放到作品集第一張」</td>
+        <td class="ai-does">優化圖片 → 替換 → preview</td>
+      </tr>
+      <tr>
+        <td class="you-said">「這頁的字看起來太小」</td>
+        <td class="ai-does">問你大概要多大,然後調 → preview</td>
+      </tr>
+      <tr>
+        <td class="you-said">「加一個新案例,叫 OOO,在 OO 路」</td>
+        <td class="ai-does">問你要哪些照片、要寫什麼,然後生成新頁面 → preview</td>
+      </tr>
+      <tr>
+        <td class="you-said">「上一版」 / 「還原」</td>
+        <td class="ai-does">退回前一個版本</td>
+      </tr>
+      <tr>
+        <td class="you-said">「網站還好嗎?」</td>
+        <td class="ai-does">檢查狀態、用量、最近改了什麼</td>
+      </tr>
+      <tr>
+        <td class="you-said">「發布」 / 「上線」</td>
+        <td class="ai-does">把 preview 推到正式網站</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="page-num">09 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 10: 今天要做的 5 件事 -->
+<!-- ============================================ -->
+<div class="slide bg-paper left-stack" id="s10">
+  <div class="section-bar"></div>
+  <div class="slide-header">
+    <span class="label highlight-forest">今天</span>
+    <h2>我們一起弄好這 5 件事</h2>
+    <p class="body-text" style="color:var(--text-muted); margin-top:8px;">
+      只有「要用你的信箱、手機、信用卡」的事需要你本人。其他都 Jason 回家弄。
+    </p>
+  </div>
+
+  <div style="width:100%;">
+    <div class="todo-row">
+      <div class="todo-num">01</div>
+      <div class="todo-content">
+        <h4>訂閱 AI 工具</h4>
+        <p>ChatGPT Plus 或 Claude Pro,擇一。月費 $20。用你的信箱 + 你的信用卡。</p>
+      </div>
+      <div class="todo-time">5 分鐘</div>
+    </div>
+
+    <div class="todo-row">
+      <div class="todo-num">02</div>
+      <div class="todo-content">
+        <h4>開 GitHub 帳號</h4>
+        <p>放網站程式的地方。用你的信箱 + 手機 2FA。開好把 Jason 加進去當協作者。</p>
+      </div>
+      <div class="todo-time">3 分鐘</div>
+    </div>
+
+    <div class="todo-row">
+      <div class="todo-num">03</div>
+      <div class="todo-content">
+        <h4>開 Cloudflare 帳號</h4>
+        <p>網站「住」的地方。用你的信箱 + 手機 2FA。開好把 Jason 加進去當 member。</p>
+      </div>
+      <div class="todo-time">3 分鐘</div>
+    </div>
+
+    <div class="todo-row">
+      <div class="todo-num">04</div>
+      <div class="todo-content">
+        <h4>決定網址</h4>
+        <p>想用什麼網域名(.com / .tw / .design...)。想好就直接買,大約 $10-15 / 年。</p>
+      </div>
+      <div class="todo-time">5 分鐘</div>
+    </div>
+
+    <div class="todo-row">
+      <div class="todo-num">05</div>
+      <div class="todo-content">
+        <h4>確認手機 2FA</h4>
+        <p>能收簡訊就好,或裝 Google Authenticator / 1Password。前面註冊都會用到。</p>
+      </div>
+      <div class="todo-time">1 分鐘</div>
+    </div>
+  </div>
+
+  <div class="card-soft" style="margin-top:20px; background:rgba(143,168,137,0.12); border-color:var(--sage); align-self:center; max-width:880px; text-align:center;">
+    <p class="body-text" style="font-size:21px;">
+      <strong style="color:var(--forest);">所有帳號都是你的</strong> · Jason 只是被你授權「代你操作」。
+      <br>之後如果想自己管,隨時可以把他踢掉。
+    </p>
+  </div>
+
+  <div class="page-num">10 / 11</div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 11: 結尾 / 下一步 -->
+<!-- ============================================ -->
+<div class="slide bg-forest center-stack" id="s11">
+  <svg class="leaf-accent leaf-tr" width="700" height="700" viewBox="0 0 100 100">
+    <path d="M50 10 Q 80 30 75 60 Q 65 85 50 90 Q 35 85 25 60 Q 20 30 50 10 Z" fill="none" stroke="var(--leaf)" stroke-width="0.4"/>
+  </svg>
+  <svg class="leaf-accent leaf-bl" width="500" height="500" viewBox="0 0 100 100">
+    <path d="M50 10 Q 80 30 75 60 Q 65 85 50 90 Q 35 85 25 60 Q 20 30 50 10 Z" fill="none" stroke="var(--leaf)" stroke-width="0.4"/>
+  </svg>
+
+  <span class="label" style="color:var(--leaf);">下一步</span>
+  <h1 style="font-size:72px; color:var(--cream); max-width:1100px;">
+    要不要<span class="highlight-terra">現場試一次</span>?
+  </h1>
+  <p class="subtitle" style="max-width:780px; color:var(--leaf); margin-top:8px;">
+    任選一個你最近想改的東西。<br>
+    我在旁邊看,卡住的地方馬上幫你。
+  </p>
+  <div style="margin-top:48px; display:flex; gap:20px; flex-wrap:wrap; justify-content:center; max-width:900px;">
+    <div class="card-dark" style="padding:18px 28px;">
+      <span class="chip chip-dark">建議從這個開始</span>
+      <p style="color:var(--cream); font-size:20px; margin-top:8px;">
+        改一個首頁的句子
+      </p>
+    </div>
+    <div class="card-dark" style="padding:18px 28px;">
+      <span class="chip chip-dark">或這個</span>
+      <p style="color:var(--cream); font-size:20px; margin-top:8px;">
+        換一張你最喜歡的照片
+      </p>
+    </div>
+    <div class="card-dark" style="padding:18px 28px;">
+      <span class="chip chip-dark">或這個</span>
+      <p style="color:var(--cream); font-size:20px; margin-top:8px;">
+        加一個你最近完成的案例
+      </p>
+    </div>
+  </div>
+  <div style="margin-top:64px; padding-top:24px; border-top:1px solid rgba(184,205,169,0.2); width:100%; max-width:600px; text-align:center;">
+    <p class="meta" style="color:var(--leaf);">
+      搞不定的事 · 隨時找 Jason
+    </p>
+  </div>
+  <div class="page-num" style="color:var(--leaf);">11 / 11</div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav-hint">← → / 點擊左右 / F 全螢幕</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+
+function showSlide(n) {
+  slides[current].classList.remove('active');
+  current = ((n % total) + total) % total;
+  slides[current].classList.add('active');
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    showSlide(current + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault();
+    showSlide(current - 1);
+  } else if (e.key === 'Home') {
+    showSlide(0);
+  } else if (e.key === 'End') {
+    showSlide(total - 1);
+  } else if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }
+});
+
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    diff > 0 ? showSlide(current + 1) : showSlide(current - 1);
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('a, button, input, select, textarea')) return;
+  if (e.clientX > window.innerWidth / 2) {
+    showSlide(current + 1);
+  } else {
+    showSlide(current - 1);
+  }
+});
+</script>
+
+</body>
+</html>

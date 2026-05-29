@@ -1,0 +1,23 @@
+{
+  "skill_name": "publish",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "首頁標題我想換成「讓植物陪你過日子」,先給我看看效果,還不要正式上線喔",
+      "expected_output": "AI 走 preview 流程:說明會先建一個只有她看得到的預覽版、不碰正式網站,描述會建 preview 分支並 commit,給出預覽連結概念並提醒約 1-2 分鐘後才打得開,明確等她點頭才 merge 上線。尊重「先給我看」=preview,不直接推 main。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "欸我昨天請你把主色調暖那個,我看了還是比較喜歡原本的,可以幫我換回來嗎?",
+      "expected_output": "AI 走 rollback 流程:先確認要還原的是哪一次改動(不假設一定是最後一次),用 revert 而不是 reset/force push,說明還原後正式網站要 1-2 分鐘重建,並提議事後幫她確認。不爭論她的審美。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我想把網站網址改成 verdantwanderlust.tw,這個你可以幫我用嗎?",
+      "expected_output": "AI 辨識出「改網址 / 自訂網域」屬於 Cloudflare 後台設定,超出能力邊界,回覆需要找 Jason,並提議幫她寫一段簡短需求摘要轉給他。不嘗試自己動手。",
+      "files": []
+    }
+  ]
+}

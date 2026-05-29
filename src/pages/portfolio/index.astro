@@ -1,0 +1,141 @@
+---
+import Base from '~/layouts/Base.astro';
+
+// 之後從 content collection 取代(getCollection('portfolio'))
+const cases = [
+  { slug: 'placeholder-1', title: '大安區屋頂花園', location: '台北 · 大安', year: 2024, area: 42 },
+  { slug: 'placeholder-2', title: '老房苔石庭', location: '台南 · 中西', year: 2023, area: 18 },
+  { slug: 'placeholder-3', title: '海岸線退縮地復植', location: '宜蘭 · 頭城', year: 2023, area: 320 },
+];
+---
+<Base title="Portfolio · 景觀丸藝" description="作品案場索引。">
+  <section class="column page">
+    <p class="kicker">Selected Work</p>
+    <h1>案場索引</h1>
+    <p class="lede">時間排序,點進案場讀完整章節。</p>
+
+    <div class="grid">
+      <aside class="sidebar">
+        <ul>
+          {cases.map(c => (
+            <li>
+              <a href={`#${c.slug}`}>
+                <span class="loc">{c.location}</span>
+                <span class="year">{c.year}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+      <div class="main">
+        {cases.map(c => (
+          <article id={c.slug} class="case">
+            <div class="thumb" aria-hidden="true">
+              <span class="placeholder">{c.title.slice(0, 1)}</span>
+            </div>
+            <div class="info">
+              <p class="meta">{c.location} · {c.year} · {c.area} ㎡</p>
+              <h3>{c.title}</h3>
+              <p class="summary">_一段案場簡介 _</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page {
+    padding: var(--s-16) 0 var(--s-24);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-3xl);
+    letter-spacing: var(--track-tight);
+    line-height: var(--lh-tight);
+    margin: var(--s-3) 0 var(--s-6) 0;
+  }
+  .grid {
+    margin-top: var(--s-12);
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--s-12);
+  }
+  .sidebar {
+    position: sticky;
+    top: 90px;
+    align-self: start;
+    border-right: 1px solid var(--border);
+    padding-right: var(--s-6);
+  }
+  .sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .sidebar li { padding: var(--s-3) 0; border-bottom: 1px solid var(--border); }
+  .sidebar a {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-3);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border-bottom: none;
+  }
+  .sidebar a:hover { color: var(--accent); }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+  }
+  .case {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+  }
+  .thumb {
+    aspect-ratio: 16 / 10;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placeholder {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 6rem;
+    color: var(--border-strong);
+  }
+  .meta {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--subtle);
+  }
+  .case h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-2xl);
+    letter-spacing: var(--track-tight);
+    color: var(--ink);
+    margin: var(--s-2) 0 var(--s-4) 0;
+  }
+  .summary {
+    color: var(--muted);
+    margin: 0;
+  }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; border-right: none; padding-right: 0; }
+  }
+</style>

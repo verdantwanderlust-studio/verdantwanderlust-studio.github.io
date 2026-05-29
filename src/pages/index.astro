@@ -1,0 +1,137 @@
+---
+import Base from '~/layouts/Base.astro';
+import Hero from '~/components/Hero.astro';
+
+// 暫用 placeholder 文案 — Ivy workshop 後替換
+const heroTitle = '為城市庭園\n注入野生的呼吸';
+const heroTagline = '景觀設計、庭園諮詢、長期監造維護。我們相信好的庭園是一段慢慢長出來的關係。';
+
+const selectedWork = [
+  { title: '大安區屋頂花園', location: '台北 · 大安', year: 2024, slug: 'placeholder-1' },
+  { title: '老房苔石庭', location: '台南 · 中西', year: 2023, slug: 'placeholder-2' },
+  { title: '海岸線退縮地復植', location: '宜蘭 · 頭城', year: 2023, slug: 'placeholder-3' },
+];
+---
+<Base
+  title="景觀丸藝 / Verdant Wanderlust"
+  description="景觀設計、庭園諮詢、長期監造維護。"
+>
+  <Hero title={heroTitle} tagline={heroTagline} />
+
+  <section class="selected">
+    <div class="column">
+      <div class="head">
+        <p class="kicker">Selected Work</p>
+        <h2>近期幾件案場</h2>
+      </div>
+      <ul class="grid">
+        {selectedWork.map(w => (
+          <li>
+            <a href={`/portfolio#${w.slug}`} class="card">
+              <div class="thumb" aria-hidden="true">
+                <span class="placeholder">{w.title.slice(0, 1)}</span>
+              </div>
+              <div class="meta">
+                <span class="loc">{w.location}</span>
+                <span class="year">{w.year}</span>
+              </div>
+              <h3 class="t">{w.title}</h3>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="more">
+        <a href="/portfolio" class="more-link">看全部案場 →</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .selected {
+    padding: var(--s-24) 0 var(--s-16);
+  }
+  .head {
+    margin-bottom: var(--s-12);
+  }
+  .head h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-2xl);
+    letter-spacing: -0.02em;
+    margin: var(--s-3) 0 0 0;
+  }
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-8);
+  }
+  .card {
+    display: block;
+    border: none;
+    color: var(--ink);
+  }
+  .card:hover { border: none; }
+  .card:hover .thumb { transform: scale(1.02); }
+  .card:hover .t { color: var(--accent); }
+
+  .thumb {
+    aspect-ratio: 9 / 12;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 1500ms var(--ease);
+  }
+  .placeholder {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 4rem;
+    color: var(--border-strong);
+  }
+  .meta {
+    margin-top: var(--s-3);
+    display: flex;
+    gap: var(--s-3);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--subtle);
+  }
+  .meta .year::before {
+    content: '·';
+    margin-right: var(--s-3);
+  }
+  .t {
+    margin: var(--s-2) 0 0 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-lg);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    transition: color var(--dur-micro) var(--ease);
+  }
+  .more {
+    margin-top: var(--s-12);
+  }
+  .more-link {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur-micro) var(--ease);
+  }
+  .more-link:hover { border-bottom-color: var(--accent); }
+
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; gap: var(--s-12); }
+  }
+</style>

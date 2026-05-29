@@ -1,0 +1,81 @@
+---
+interface Props {
+  kicker?: string;
+  title: string;
+  tagline?: string;
+}
+const {
+  kicker = 'EST · 景觀設計',
+  title,
+  tagline,
+} = Astro.props;
+---
+<section class="hero">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="column inner">
+    <p class="kick">{kicker}</p>
+    <h1 class="hname" transition:name="hero-title">{title}</h1>
+    {tagline && <p class="htag">{tagline}</p>}
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 78vh;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--s-24) 0 var(--s-16);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  /* 暫用 CSS 漸層替代 Ivy 案場照片(Ken Burns).
+     workshop 後改 raw-images/ 內她的代表照片 + animation. */
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 30%, var(--accent-weak) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 30% 80%, rgba(154, 123, 63, 0.08) 0%, transparent 70%),
+      linear-gradient(180deg, var(--bg) 0%, var(--surface-alt) 100%);
+    animation: kenburns 22s var(--ease) infinite alternate;
+  }
+  @keyframes kenburns {
+    from { transform: scale(1.0) translate(0, 0); }
+    to   { transform: scale(1.08) translate(-2%, -1%); }
+  }
+  .inner {
+    width: 100%;
+  }
+  .kick {
+    margin: 0 0 var(--s-6) 0;
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+  }
+  .hname {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, var(--t-hero));
+    line-height: var(--lh-tight);
+    letter-spacing: var(--track-tight);
+    color: var(--ink);
+    margin: 0 0 var(--s-6) 0;
+    max-width: 18ch;
+  }
+  .htag {
+    font-family: var(--font-body);
+    font-size: var(--t-lg);
+    color: var(--muted);
+    max-width: 36ch;
+    margin: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg { animation: none; }
+  }
+</style>

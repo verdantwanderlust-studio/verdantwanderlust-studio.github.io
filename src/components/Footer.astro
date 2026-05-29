@@ -1,0 +1,57 @@
+---
+const year = new Date().getFullYear();
+---
+<footer>
+  <div class="column wrap">
+    <div class="left">
+      <span class="brand">景觀丸藝 · Verdant Wanderlust</span>
+      <span class="meta">© {year}</span>
+    </div>
+    <div class="right">
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--surface-alt);
+    margin-top: var(--s-24);
+    padding: var(--s-12) 0;
+    border-top: 1px solid var(--border);
+  }
+  .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-6);
+    flex-wrap: wrap;
+  }
+  .left {
+    display: flex;
+    gap: var(--s-4);
+    align-items: baseline;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: var(--track-tight);
+  }
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--subtle);
+  }
+  .right a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    border-bottom: none;
+  }
+  .right a:hover { color: var(--accent); }
+</style>

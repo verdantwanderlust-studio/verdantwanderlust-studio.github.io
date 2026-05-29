@@ -1,0 +1,23 @@
+{
+  "skill_name": "add-photo",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我有 6 張新拍的庭院照片,想加到作品集裡",
+      "expected_output": "AI 先問清楚是新增/替換/新案例整組圖,確認分類資料夾與 case slug,給英文 dash 檔名建議,引導 Ivy 用 GitHub 網頁拖拉上傳到 raw-images/,提醒等圖片優化 pipeline,再接 MDX 引用並要 alt 文字。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "首頁最上面那張主圖我想換掉,我準備了新的",
+      "expected_output": "AI 辨識這是「替換」情境,引導上傳新圖到 raw-images/home/,等 pipeline,把 MDX 引用改成新路徑,且不刪 public/images/ 的舊檔。主視覺類建議走 preview。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "作品集的照片我想讓它可以點開放大看,像那種燈箱效果",
+      "expected_output": "AI 辨識出 lightbox(點圖放大)是新功能 / 互動元件,超出 add-photo 邊界,回覆需要找 Jason,並提議寫需求摘要。不自己動手做。",
+      "files": []
+    }
+  ]
+}

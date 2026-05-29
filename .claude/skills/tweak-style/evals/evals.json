@@ -1,0 +1,23 @@
+{
+  "skill_name": "tweak-style",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "網站的綠色我覺得有點冷冷的,可以調暖一點嗎?",
+      "expected_output": "AI 把「冷冷的」翻譯成具體 token(styles/tokens.css 的 --color-primary 之類),先確認猜對哪個 token,給「現值 vs 建議值」對比 + 文字描述(hex code 附白話),強烈建議走 preview。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "服務頁的內文字有點小,我媽看不太清楚,大一點",
+      "expected_output": "AI 對應到字級 token(--font-size-body 之類),問大概要多大或給現值/建議值對比,只改 styles/tokens.css 既有 token 的 value,改完給 preview。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我想讓首頁的標題進來的時候有淡入的效果",
+      "expected_output": "AI 辨識出淡入動畫是新效果 / 新功能,不是改既有 token value,超出 tweak-style 邊界,回覆需要找 Jason,並提議寫需求摘要。不自己動手。",
+      "files": []
+    }
+  ]
+}
