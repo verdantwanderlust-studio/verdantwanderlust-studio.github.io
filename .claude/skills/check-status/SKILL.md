@@ -31,7 +31,7 @@ Ivy 講話像這樣就走這 skill:
 
 ## 背景
 
-- **Repo**:`verdantwanderlust-studio/verdant-wanderlust`,正式網站 = `main` 分支
+- **Repo**:`verdantwanderlust-studio/verdantwanderlust-studio.github.io`,正式網站 = `main` 分支
 - **部署**:每次 `main` 有改動,Cloudflare Pages 自動重建。Cloudflare 會把「這次建好了沒、成功還失敗」回報到 GitHub,你透過 Connector 讀得到
 - **build 額度**:Cloudflare Pages 免費版每月 500 次 build。每 push 一次(不管 main 還是 preview 分支)約算一次 build
 - 全部用 GitHub Connector 讀,**這 skill 不做任何 commit / 改動**
@@ -124,7 +124,7 @@ Cloudflare 後台才有精確數字,你讀不到,所以用**估算**:
 
 ---
 網站最近一次更新失敗。
-- Repo:verdantwanderlust-studio/verdant-wanderlust
+- Repo:verdantwanderlust-studio/verdantwanderlust-studio.github.io
 - 失敗的更新:「更新首頁主標語」,時間 [日期時間]
 - 現象:[紅燈 / 網站打不開 / 你觀察到的]
 ---
