@@ -1,0 +1,82 @@
+---
+import Base from '~/layouts/Base.astro';
+// 「課程 / 工作坊」頁 — workshop 後 Ivy 填內容
+---
+<Base title="課程 · 景觀丸藝" description="植栽與庭園維護工作坊。">
+  <section class="column page">
+    <p class="kicker">課程 / Courses</p>
+    <h1>工作坊</h1>
+    <p class="lede">_workshop 後 Ivy 填課程介紹一段_</p>
+
+    <ul class="list">
+      <li class="row">
+        <div class="left">
+          <span class="n">01</span>
+          <h3>_課程名稱_</h3>
+        </div>
+        <div class="right">
+          <p>_簡介一行_</p>
+          <p class="meta">_時間 · 地點 · 費用_</p>
+        </div>
+      </li>
+      <li class="row">
+        <div class="left">
+          <span class="n">02</span>
+          <h3>_課程名稱_</h3>
+        </div>
+        <div class="right">
+          <p>_簡介一行_</p>
+          <p class="meta">_時間 · 地點 · 費用_</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .page { padding: var(--s-16) 0 var(--s-24); }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-3xl);
+    letter-spacing: var(--track-tight);
+    line-height: var(--lh-tight);
+    margin: var(--s-3) 0 var(--s-6) 0;
+  }
+  .list { list-style: none; margin: var(--s-16) 0 0 0; padding: 0; }
+  .row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--s-12);
+    padding: var(--s-12) 0;
+    border-top: 1px solid var(--border);
+    border-left: 4px solid transparent;
+    padding-left: var(--s-6);
+    transition: border-color 200ms var(--ease);
+  }
+  .row:last-child { border-bottom: 1px solid var(--border); }
+  .row:hover { border-left-color: var(--accent); }
+  .left { display: flex; flex-direction: column; gap: var(--s-3); }
+  .n {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--subtle);
+    letter-spacing: 0.14em;
+  }
+  .left h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--t-xl);
+    letter-spacing: var(--track-tight);
+    margin: 0;
+  }
+  .right p { margin: 0 0 var(--s-2) 0; color: var(--ink); }
+  .right .meta {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--subtle);
+  }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; gap: var(--s-3); } }
+</style>

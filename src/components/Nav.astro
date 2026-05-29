@@ -1,25 +1,53 @@
 ---
 const pathname = Astro.url.pathname;
+
+// 5 nav items 對齊 Ivy 草稿:關於 / 作品集 / 課程 / 購物↗Pinkoi / 聯繫
+// 「課程」對應草稿三大入口的「工作坊」延伸
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services' },
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/about',     zh: '關於',   en: 'About' },
+  { href: '/portfolio', zh: '作品集', en: 'Portfolio' },
+  { href: '/courses',   zh: '課程',   en: 'Courses' },
+  { href: 'https://www.pinkoi.com/', zh: '購物', en: 'Shop', external: true },
+  { href: '/contact',   zh: '聯繫',   en: 'Contact' },
 ];
+
 const isActive = (href: string) =>
   href === '/' ? pathname === '/' : pathname.startsWith(href);
+
+// Ivy workshop 後填寫
+const socials = {
+  facebook:  'https://www.facebook.com/',
+  instagram: 'https://www.instagram.com/',
+};
 ---
 <nav class="top">
   <div class="column wrap">
-    <a class="brand" href="/" transition:name="brand-mark">
+    <a class="brand" href="/" transition:name="brand-mark" aria-label="景觀丸藝 首頁">
       <span class="mark">VW</span>
       <span class="name">景觀丸藝</span>
     </a>
+
+    <div class="socials" aria-label="社群連結">
+      <a href={socials.facebook} target="_blank" rel="noopener" aria-label="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href={socials.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+      </a>
+    </div>
+
     <ul class="links">
-      {links.slice(1).map(l => (
+      {links.map(l => (
         <li>
-          <a href={l.href} class:list={[{ active: isActive(l.href) }]}>{l.label}</a>
+          <a
+            href={l.href}
+            class:list={[{ active: !l.external && isActive(l.href) }]}
+            {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
+          >
+            <span class="zh">{l.zh}</span>
+            <span class="en">{l.en}</span>
+            {l.external && <span class="ext" aria-hidden="true">↗</span>}
+          </a>
         </li>
       ))}
     </ul>
@@ -40,7 +68,6 @@ const isActive = (href: string) =>
     padding: 14px var(--s-6);
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--s-6);
   }
   .brand {
@@ -49,20 +76,18 @@ const isActive = (href: string) =>
     gap: 10px;
     border: none;
     color: var(--ink);
+    margin-right: var(--s-2);
   }
   .brand:hover { border: none; }
   .mark {
-    width: 30px;
-    height: 30px;
+    width: 30px; height: 30px;
     border-radius: var(--r-sm);
     background: var(--accent);
     color: var(--surface);
     font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
   }
   .name {
     font-family: var(--font-display);
@@ -70,26 +95,70 @@ const isActive = (href: string) =>
     letter-spacing: var(--track-tight);
     font-size: 1.05rem;
   }
+
+  .socials {
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+    padding-left: var(--s-3);
+    border-left: 1px solid var(--border);
+    margin-right: auto;
+  }
+  .socials a {
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    border-radius: var(--r-sm);
+    border: none;
+    transition: color var(--dur-micro) var(--ease), background var(--dur-micro) var(--ease);
+  }
+  .socials a:hover {
+    color: var(--accent);
+    background: var(--accent-weak);
+    border: none;
+  }
+
   .links {
     list-style: none;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     display: flex;
     gap: var(--s-6);
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
   }
   .links a {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
     color: var(--muted);
     border-bottom: none;
     transition: color var(--dur-micro) var(--ease);
   }
   .links a:hover { color: var(--accent); }
   .links a.active { color: var(--accent); }
-  @media (max-width: 640px) {
-    .links { gap: var(--s-4); font-size: 0.7rem; }
+  .links .zh {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  .links .en {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--subtle);
+  }
+  .links a:hover .en, .links a.active .en { color: var(--accent); }
+  .links .ext {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--brass);
+    margin-left: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .wrap { flex-wrap: wrap; gap: var(--s-3); }
+    .socials { margin-right: 0; }
+    .links { gap: var(--s-3); width: 100%; justify-content: space-between; }
     .name { display: none; }
+    .links .en { display: none; }
   }
 </style>
