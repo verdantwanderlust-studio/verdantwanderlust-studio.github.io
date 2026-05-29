@@ -1,5 +1,6 @@
 ---
 import Base from '~/layouts/Base.astro';
+import { Image } from 'astro:assets';
 
 // 對齊 Ivy 紅字改動(image 7):
 // - 名稱 Gallery → PORTFOLIO
@@ -10,14 +11,30 @@ import Base from '~/layouts/Base.astro';
 // - 滑鼠移過去翻轉到背面
 // - 背面白色背景 + 作品說明(尺寸 / 名稱 / 理念)
 
-const works = Array.from({ length: 9 }).map((_, i) => ({
-  slug: `placeholder-${i + 1}`,
-  title: ['大安屋頂花園', '老房苔石庭', '海岸退縮復植', '林口禪庭', '宜蘭水岸案', '工作室自宅', '北投溫泉院落', '南港陽台', '永和書齋庭'][i],
-  size: `${20 + i * 8}㎡`,
-  concept: '_作品理念待 Ivy 填寫_',
-  year: 2023 + (i % 3),
-  loc: ['台北','台北','宜蘭','新北','宜蘭','工作室','台北','台北','新北'][i],
-}));
+// 9 件作品圖(從 Drive 同步):src/assets/portfolio/
+import img01 from '~/assets/portfolio/01-terrarium-vw.jpg';
+import img02 from '~/assets/portfolio/02.jpg';
+import img03 from '~/assets/portfolio/03.jpg';
+import img04 from '~/assets/portfolio/04.jpg';
+import img05 from '~/assets/portfolio/05.jpg';
+import img06 from '~/assets/portfolio/06.jpg';
+import img07 from '~/assets/portfolio/07-lion-king.png';
+import img08 from '~/assets/portfolio/08-lion-king.png';
+import img09 from '~/assets/portfolio/09-lion-king.png';
+
+// TODO Ivy 後續補:作品名稱 / 尺寸 / 理念 / 年份 / 地點
+// 目前 title/size 為佔位,只圖正確
+const works = [
+  { img: img01, title: '_作品 01_', size: '_尺寸_', concept: '_作品理念待 Ivy 填寫_', year: 2024, loc: '_系列_' },
+  { img: img02, title: '_作品 02_', size: '_尺寸_', concept: '_作品理念待 Ivy 填寫_', year: 2024, loc: '_系列_' },
+  { img: img03, title: '_作品 03_', size: '_尺寸_', concept: '_作品理念待 Ivy 填寫_', year: 2024, loc: '_系列_' },
+  { img: img04, title: '_作品 04_', size: '_尺寸_', concept: '_作品理念待 Ivy 填寫_', year: 2024, loc: '_系列_' },
+  { img: img05, title: '_作品 05_', size: '_尺寸_', concept: '_作品理念待 Ivy 填寫_', year: 2024, loc: '_系列_' },
+  { img: img06, title: '_作品 06_', size: '_尺寸_', concept: '_作品理念待 Ivy 填寫_', year: 2024, loc: '_系列_' },
+  { img: img07, title: 'The Lion King I', size: '_尺寸_', concept: '_系列作品_', year: 2024, loc: 'Lion King 系列' },
+  { img: img08, title: 'The Lion King III', size: '_尺寸_', concept: '_系列作品_', year: 2024, loc: 'Lion King 系列' },
+  { img: img09, title: 'The Lion King IV', size: '_尺寸_', concept: '_系列作品_', year: 2024, loc: 'Lion King 系列' },
+];
 ---
 <Base
   title="Portfolio · 景觀丸藝"
@@ -39,9 +56,17 @@ const works = Array.from({ length: 9 }).map((_, i) => ({
           {works.map(w => (
             <li class="card">
               <div class="flipper">
-                <!-- 正面:圖片 -->
+                <!-- 正面:作品照 -->
                 <div class="face front" aria-hidden="false">
-                  <span class="placeholder">{w.title.slice(0,1)}</span>
+                  <Image
+                    src={w.img}
+                    alt={w.title}
+                    width={600}
+                    height={600}
+                    densities={[1, 2]}
+                    loading="lazy"
+                    class="thumb-img"
+                  />
                 </div>
                 <!-- 背面:白底 + 尺寸 / 名稱 / 理念 -->
                 <div class="face back">
@@ -121,16 +146,15 @@ const works = Array.from({ length: 9 }).map((_, i) => ({
     overflow: hidden;
   }
 
-  /* 正面:placeholder(workshop 後換照片) */
+  /* 正面:作品照 */
   .front {
     background: #FAFAFA;
-    display: flex; align-items: center; justify-content: center;
   }
-  .placeholder {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 4rem;
-    color: #E5E5E5;
+  .thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   /* 背面:白色背景 + 作品說明(Ivy 紅字確認) */
