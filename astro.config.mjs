@@ -5,11 +5,12 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// 暫用 placeholder domain — Ivy 買 domain 後改
-const SITE = 'https://verdantwanderlust.com';
+// GitHub Pages 網址 — 買 domain 後改回 verdantwanderlust.com 並移除 base
+const SITE = 'https://verdantwanderlust-studio.github.io';
 
 export default defineConfig({
   site: SITE,
+  base: '/verdant-wanderlust',
   trailingSlash: 'never',
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   vite: {
