@@ -1,20 +1,15 @@
 ---
 import Base from '~/layouts/Base.astro';
+import { getEntry } from 'astro:content';
 
-// workshop 後 Ivy 替換實際資訊
-const email = 'hello@verdantwanderlust.com';
-const phone = '+886 _ ____ ____';
-const address = '_工作室地址 / 服務區域_';
-
-// Google Map embed — Ivy 提供地址後替換
-// 用 Google Maps -> 分享 -> 嵌入地圖 拿 src
-const mapSrc = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14467.041946953336!2d121.5318!3d25.0330!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDAxJzU4LjgiTiAxMjHCsDMxJzU0LjUiRQ!5e0!3m2!1szh-TW!2stw';
+const { data } = await getEntry('pages', 'contact');
+const { kicker, title, lede, email, phone, address, mapSrc, note } = data;
 ---
 <Base title="聯繫 · 景觀丸藝" description="與景觀丸藝聯絡。">
   <section class="column page">
-    <p class="kicker">聯繫 / Contact</p>
-    <h1>寫一封信</h1>
-    <p class="lede">我們會回。</p>
+    <p class="kicker">{kicker}</p>
+    <h1>{title}</h1>
+    <p class="lede">{lede}</p>
 
     <dl class="info">
       <dt>Email</dt>
@@ -41,10 +36,7 @@ const mapSrc = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14467.0419
       </div>
     </div>
 
-    <p class="note">
-      <!-- Ivy Q3 還在思考要加什麼(電話 / 營業時間 / LINE / 預約方式)— workshop 後補 -->
-      _一段簡短的「我們會回信的速度 / 服務區域 / 預約方式」說明_
-    </p>
+    <p class="note">{note}</p>
   </section>
 </Base>
 

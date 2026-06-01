@@ -1,16 +1,17 @@
 ---
 import Base from '~/layouts/Base.astro';
+import { getEntry } from 'astro:content';
+
+const { data } = await getEntry('pages', 'about');
 ---
-<Base title="About · 景觀丸藝" description="關於 Ivy 與景觀丸藝。">
+<Base title="About · 景觀丸藝" description="關於景觀丸藝。">
   <article class="column page">
-    <p class="kicker">About</p>
-    <h1>關於我</h1>
-    <p class="lede">_workshop 後 Ivy 第一人稱自介 200 字_</p>
+    <p class="kicker">{data.kicker}</p>
+    <h1>{data.title}</h1>
+    <p class="lede">{data.lede}</p>
 
     <div class="body">
-      <p>_第一段:從哪裡來、為什麼做景觀_</p>
-      <p>_第二段:工作哲學 / 一句話總結你怎麼做事_</p>
-      <p>_第三段:你想跟什麼樣的客人合作_</p>
+      {data.body?.map((para) => <p>{para}</p>)}
     </div>
   </article>
 </Base>
