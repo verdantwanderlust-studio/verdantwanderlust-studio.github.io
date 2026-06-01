@@ -28,8 +28,8 @@
   --brass:       #9A7B3F;  /* 副色(極克制) */
 
   /* ---- 字體 ---- */
-  --font-display: 'Inter', 'Noto Sans TC', sans-serif;
-  --font-body:    'Noto Sans TC', sans-serif;
+  --font-display: 'Cormorant Garamond', 'Noto Serif TC', serif;
+  --font-body:    'Noto Serif TC', serif;
   --font-mono:    'JetBrains Mono', monospace;
 
   --t-xs: 0.8rem;   --t-sm: 0.875rem; --t-base: 1rem;
