@@ -50,7 +50,6 @@ const works = [
               data-concept={w.concept}
               data-year={w.year}
               data-loc={w.loc}
-              data-src={(w.img as any).src}
             >
               <div class="flipper">
                 <div class="face front" aria-hidden="false">
@@ -332,7 +331,9 @@ const works = [
   const closeBtn = modal.querySelector('.modal-close') as HTMLElement;
 
   function openModal(card: HTMLElement) {
-    modalImg.src = card.dataset.src || '';
+    // 直接用已載入的縮圖 src，避免重新抓圖造成延遲
+    const thumb = card.querySelector<HTMLImageElement>('.thumb-img');
+    modalImg.src = thumb?.currentSrc || thumb?.src || '';
     modalImg.alt = card.dataset.title || '';
     modalMeta.textContent = `${card.dataset.loc} · ${card.dataset.year}`;
     modalTitle.textContent = card.dataset.title || '';
