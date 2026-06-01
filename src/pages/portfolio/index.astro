@@ -2,16 +2,6 @@
 import Base from '~/layouts/Base.astro';
 import { Image } from 'astro:assets';
 
-// 對齊 Ivy 紅字改動(image 7):
-// - 名稱 Gallery → PORTFOLIO
-// - 標題在 sticky nav「下面」,不是頂部 banner
-// - 背景白色(不是 cream)
-// - 3×3 九宮格
-// 對齊 image 8:
-// - 滑鼠移過去翻轉到背面
-// - 背面白色背景 + 作品說明(尺寸 / 名稱 / 理念)
-
-// 9 件作品圖(從 Drive 同步):src/assets/portfolio/
 import img01 from '~/assets/portfolio/01-terrarium-vw.jpg';
 import img02 from '~/assets/portfolio/02.jpg';
 import img03 from '~/assets/portfolio/03.jpg';
@@ -22,8 +12,6 @@ import img07 from '~/assets/portfolio/07-lion-king.png';
 import img08 from '~/assets/portfolio/08-lion-king.png';
 import img09 from '~/assets/portfolio/09-lion-king.png';
 
-// TODO Ivy 後續補:作品名稱 / 尺寸 / 理念 / 年份 / 地點
-// 目前 title/size 為佔位,只圖正確
 const works = [
   { img: img01, title: '_作品 01_', size: '_尺寸_', concept: '_作品理念待 Ivy 填寫_', year: 2024, loc: '_系列_' },
   { img: img02, title: '_作品 02_', size: '_尺寸_', concept: '_作品理念待 Ivy 填寫_', year: 2024, loc: '_系列_' },
@@ -41,7 +29,6 @@ const works = [
   description="作品集 — 景觀丸藝近期案場。"
 >
   <div class="portfolio-page">
-    <!-- 標題在 sticky nav 下面 -->
     <header class="port-header">
       <div class="column">
         <p class="kicker">作品集 / Works</p>
@@ -49,14 +36,23 @@ const works = [
       </div>
     </header>
 
-    <!-- 3×3 九宮格 -->
     <section class="grid-section">
       <div class="column">
         <ul class="grid">
-          {works.map(w => (
-            <li class="card">
+          {works.map((w, i) => (
+            <li
+              class="card"
+              role="button"
+              tabindex="0"
+              data-index={i}
+              data-title={w.title}
+              data-size={w.size}
+              data-concept={w.concept}
+              data-year={w.year}
+              data-loc={w.loc}
+              data-src={(w.img as any).src}
+            >
               <div class="flipper">
-                <!-- 正面:作品照 -->
                 <div class="face front" aria-hidden="false">
                   <Image
                     src={w.img}
@@ -68,7 +64,6 @@ const works = [
                     class="thumb-img"
                   />
                 </div>
-                <!-- 背面:白底 + 尺寸 / 名稱 / 理念 -->
                 <div class="face back">
                   <div class="back-meta">{w.loc} · {w.year}</div>
                   <h3 class="back-title">{w.title}</h3>
@@ -84,20 +79,37 @@ const works = [
       </div>
     </section>
   </div>
+
+  <!-- Modal -->
+  <div id="port-modal" class="modal" role="dialog" aria-modal="true" aria-label="作品詳情" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-box">
+      <button class="modal-close" aria-label="關閉">✕</button>
+      <div class="modal-inner">
+        <div class="modal-img-wrap">
+          <img id="modal-img" src="" alt="" class="modal-img" />
+        </div>
+        <div class="modal-info">
+          <p id="modal-meta" class="modal-meta"></p>
+          <h2 id="modal-title" class="modal-title"></h2>
+          <dl class="modal-dl">
+            <dt>尺寸</dt><dd id="modal-size"></dd>
+            <dt>理念</dt><dd id="modal-concept"></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
 </Base>
 
 <style>
-  /* Portfolio 全頁白底(覆蓋全站 cream)*/
   .portfolio-page { background: #FFFFFF; min-height: 100vh; }
 
-  /* 標題在 sticky nav 下方 */
   .port-header {
     padding: var(--s-12) 0 var(--s-8);
     border-bottom: 1px solid var(--border);
   }
-  .port-header .kicker {
-    margin: 0 0 var(--s-3) 0;
-  }
+  .port-header .kicker { margin: 0 0 var(--s-3) 0; }
   .port-title {
     font-family: var(--font-display);
     font-weight: 800;
@@ -108,7 +120,6 @@ const works = [
     margin: 0;
   }
 
-  /* 3×3 九宮格 */
   .grid-section { padding: var(--s-12) 0 var(--s-24); }
   .grid {
     list-style: none; margin: 0; padding: 0;
@@ -117,19 +128,17 @@ const works = [
     gap: var(--s-6);
   }
 
-  /* 卡片:perspective 給子元素 3D 環境 */
   .card {
     perspective: 1200px;
     aspect-ratio: 1 / 1;
+    cursor: pointer;
   }
 
-  /* 翻面容器 */
   .flipper {
     position: relative;
     width: 100%; height: 100%;
     transform-style: preserve-3d;
     transition: transform 600ms var(--ease);
-    cursor: pointer;
   }
   .card:hover .flipper,
   .card:focus-within .flipper {
@@ -146,18 +155,9 @@ const works = [
     overflow: hidden;
   }
 
-  /* 正面:作品照 */
-  .front {
-    background: #FAFAFA;
-  }
-  .thumb-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
+  .front { background: #FAFAFA; }
+  .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  /* 背面:白色背景 + 作品說明(Ivy 紅字確認) */
   .back {
     background: #FFFFFF;
     transform: rotateY(180deg);
@@ -197,14 +197,121 @@ const works = [
     color: var(--subtle);
     padding-top: 3px;
   }
-  .back-dl dd {
-    margin: 0;
-    color: var(--ink);
-    line-height: 1.5;
+  .back-dl dd { margin: 0; color: var(--ink); line-height: 1.5; }
+
+  /* ---- Modal ---- */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  .modal[hidden] { display: none; }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(35, 42, 32, 0.55);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .modal-box {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    border-radius: var(--r-lg);
+    width: min(920px, 92vw);
+    max-height: 88vh;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: var(--s-4);
+    right: var(--s-4);
+    z-index: 2;
+    background: var(--surface-alt);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 200ms var(--ease);
+  }
+  .modal-close:hover { background: var(--border); }
+
+  .modal-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 480px;
+  }
+
+  .modal-img-wrap {
+    background: #FAFAFA;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .modal-info {
+    padding: var(--s-12) var(--s-8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+  }
+
+  .modal-meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--subtle);
+    margin: 0 0 var(--s-3) 0;
+  }
+  .modal-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--t-2xl);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0 0 var(--s-8) 0;
+    line-height: 1.15;
+  }
+  .modal-dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: var(--s-3) var(--s-4);
+  }
+  .modal-dl dt {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--subtle);
+    padding-top: 3px;
+  }
+  .modal-dl dd { margin: 0; color: var(--ink); line-height: 1.65; }
 
   @media (max-width: 720px) {
     .grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
+    .modal-inner { grid-template-columns: 1fr; }
+    .modal-img-wrap { height: 240px; border-right: none; border-bottom: 1px solid var(--border); }
   }
   @media (max-width: 480px) {
     .grid { grid-template-columns: 1fr; }
@@ -213,3 +320,48 @@ const works = [
     .flipper { transition: none; }
   }
 </style>
+
+<script>
+  const modal = document.getElementById('port-modal') as HTMLElement;
+  const modalImg = document.getElementById('modal-img') as HTMLImageElement;
+  const modalMeta = document.getElementById('modal-meta') as HTMLElement;
+  const modalTitle = document.getElementById('modal-title') as HTMLElement;
+  const modalSize = document.getElementById('modal-size') as HTMLElement;
+  const modalConcept = document.getElementById('modal-concept') as HTMLElement;
+  const backdrop = modal.querySelector('.modal-backdrop') as HTMLElement;
+  const closeBtn = modal.querySelector('.modal-close') as HTMLElement;
+
+  function openModal(card: HTMLElement) {
+    modalImg.src = card.dataset.src || '';
+    modalImg.alt = card.dataset.title || '';
+    modalMeta.textContent = `${card.dataset.loc} · ${card.dataset.year}`;
+    modalTitle.textContent = card.dataset.title || '';
+    modalSize.textContent = card.dataset.size || '';
+    modalConcept.textContent = card.dataset.concept || '';
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll<HTMLElement>('.card').forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(card);
+      }
+    });
+  });
+
+  backdrop.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.hidden) closeModal();
+  });
+</script>
