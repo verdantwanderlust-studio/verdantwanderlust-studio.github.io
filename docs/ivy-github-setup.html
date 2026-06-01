@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>給 Ivy:怎麼更新網站</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F1E8; --surface:#FFFDF8; --surface-alt:#EBE6D9;
+  --border:#E3DBCB; --border-strong:#D3C8B3;
+  --ink:#232A20; --muted:#6B675A; --subtle:#8C8676;
+  --accent:#2E5E3F; --accent-hover:#244B32; --accent-weak:#E6EDE4; --brass:#9A7B3F;
+  --font-display:'Inter','Noto Sans TC',sans-serif;
+  --font-body:'Noto Sans TC',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --t-sm:0.875rem; --t-base:1rem; --t-lg:1.25rem; --t-xl:1.563rem; --t-2xl:1.953rem; --t-3xl:2.441rem;
+  --lh-zh:1.8; --lh-tight:1.12; --track-tight:-0.03em;
+  --s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-6:24px;--s-8:32px;--s-12:48px;--s-16:64px;--s-24:96px;
+  --r-sm:8px;--r-md:10px;--r-lg:12px;
+  --shadow:0 1px 2px rgba(35,42,32,.05),0 8px 24px rgba(35,42,32,.07);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font-body);font-size:var(--t-base);line-height:var(--lh-zh);
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto;padding:var(--s-24) var(--s-6) var(--s-16);}
+.kicker{
+  font-family:var(--font-mono);font-size:var(--t-sm);font-weight:500;
+  text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin:0 0 var(--s-4);
+}
+h1{
+  font-family:var(--font-display);font-weight:800;font-size:var(--t-3xl);
+  letter-spacing:var(--track-tight);line-height:var(--lh-tight);margin:0 0 var(--s-4);
+}
+.lede{font-size:var(--t-lg);color:var(--muted);margin:0 0 var(--s-16);max-width:42ch;}
+h2{
+  font-family:var(--font-display);font-weight:800;font-size:var(--t-2xl);
+  letter-spacing:var(--track-tight);line-height:var(--lh-tight);
+  margin:var(--s-16) 0 var(--s-6);padding-top:var(--s-12);border-top:1px solid var(--border);
+}
+h2 .num{
+  font-family:var(--font-mono);font-size:var(--t-base);color:var(--brass);
+  font-weight:500;margin-right:var(--s-3);letter-spacing:.04em;
+}
+h3{font-family:var(--font-display);font-weight:600;font-size:var(--t-xl);letter-spacing:var(--track-tight);margin:var(--s-12) 0 var(--s-3);}
+p{margin:0 0 var(--s-4);}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--border-strong);}
+a:hover{color:var(--accent-hover);}
+.tag{
+  display:inline-block;font-family:var(--font-mono);font-size:var(--t-sm);
+  letter-spacing:.1em;text-transform:uppercase;padding:2px 10px;border-radius:var(--r-sm);
+  background:var(--accent);color:#fff;margin-left:var(--s-3);vertical-align:middle;font-weight:500;
+}
+.tag.soft{background:var(--accent-weak);color:var(--accent);}
+.tag.brass{background:transparent;color:var(--brass);border:1px solid var(--border-strong);}
+table{width:100%;border-collapse:collapse;margin:var(--s-6) 0;font-size:var(--t-base);}
+th,td{text-align:left;padding:var(--s-3) var(--s-4);border-bottom:1px solid var(--border);vertical-align:top;}
+th{font-family:var(--font-mono);font-size:var(--t-sm);text-transform:uppercase;letter-spacing:.1em;color:var(--subtle);font-weight:500;}
+code{font-family:var(--font-mono);font-size:.92em;background:var(--accent-weak);color:var(--accent-hover);padding:1px 6px;border-radius:6px;word-break:break-all;}
+pre{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:var(--s-4) var(--s-6);overflow:auto;box-shadow:var(--shadow);margin:var(--s-4) 0 var(--s-6);
+}
+pre code{background:none;color:var(--ink);padding:0;font-size:var(--t-sm);line-height:1.7;}
+ol,ul{margin:0 0 var(--s-6);padding-left:var(--s-6);}
+li{margin:0 0 var(--s-3);}
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:var(--s-6) var(--s-8);box-shadow:var(--shadow);margin:var(--s-6) 0;
+}
+.card.pick{border-color:var(--border-strong);border-left:3px solid var(--accent);}
+.note{
+  background:var(--accent-weak);border-radius:var(--r-md);padding:var(--s-4) var(--s-6);
+  color:var(--ink);font-size:var(--t-base);margin:var(--s-6) 0;
+}
+.note .lbl{font-family:var(--font-mono);font-size:var(--t-sm);text-transform:uppercase;letter-spacing:.12em;color:var(--accent);display:block;margin-bottom:var(--s-2);}
+.dev{background:var(--surface-alt);border-color:var(--border-strong);}
+.dev .lbl{color:var(--brass);}
+hr{border:none;border-top:1px solid var(--border);margin:var(--s-12) 0;}
+.foot{margin-top:var(--s-16);padding-top:var(--s-8);border-top:1px solid var(--border);color:var(--subtle);font-size:var(--t-sm);}
+@media(max-width:560px){
+  .wrap{padding:var(--s-16) var(--s-4) var(--s-12);}
+  h1{font-size:var(--t-2xl);}
+  .card{padding:var(--s-6);}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <p class="kicker">給 Ivy · 更新網站指南</p>
+  <h1>說一句話,就更新網站</h1>
+  <p class="lede">三種方式,由簡到進階。先看「方式一」 —— 那個一定能用。</p>
+
+  <h2><span class="num">00</span>你要改的檔案在哪</h2>
+  <p>網站的文字都整理成乾淨的小檔案了,放在這幾個地方:</p>
+  <table>
+    <thead><tr><th>檔案</th><th>對應頁面</th><th>你會改的</th></tr></thead>
+    <tbody>
+      <tr><td><code>pages/about.yaml</code></td><td>關於我</td><td>自我介紹文字</td></tr>
+      <tr><td><code>pages/courses.yaml</code></td><td>課程</td><td>課名、介紹、時間地點費用</td></tr>
+      <tr><td><code>pages/contact.yaml</code></td><td>聯繫</td><td>Email、電話、地址</td></tr>
+    </tbody>
+  </table>
+  <p>它們長這樣 —— 只改<strong>引號裡的中文字</strong>,其他符號不要動:</p>
+  <pre><code>title: "關於我"
+lede: "巴掌大的玻璃裡,裝著一整座會自己呼吸的森林。"</code></pre>
+
+  <h2><span class="num">01</span>網頁直接改<span class="tag">一定能用</span></h2>
+  <div class="card pick">
+    <p>最穩。只要你會登入 GitHub 就行,不用裝任何東西。</p>
+    <ol>
+      <li>用瀏覽器打開要改的檔案(關於頁的網址):<br><code>github.com/verdantwanderlust-studio/verdantwanderlust-studio.github.io/blob/main/src/content/pages/about.yaml</code></li>
+      <li>點右上角的<strong>鉛筆圖示</strong>(Edit)</li>
+      <li>改<strong>引號裡的中文字</strong>(引號、冒號、縮排都別動)</li>
+      <li>拉到最下面,點綠色的 <strong>Commit changes</strong></li>
+      <li>等 3–5 分鐘,網站自動更新</li>
+    </ol>
+    <div class="note"><span class="lbl">怕改錯</span>改之前先把原本的字複製貼到記事本,改壞了可以貼回來。</div>
+  </div>
+
+  <h2><span class="num">02</span>在 Claude 裡對話改<span class="tag soft">進階</span></h2>
+  <p>設好之後,你在 Claude Desktop 打字說「幫我把關於頁改成 ⋯⋯」,它就自動幫你改 + 上線。</p>
+  <p><strong>先決條件:</strong>Claude Desktop app(Pro 或 Max 方案);一個能存取那個專案的 GitHub 帳號。</p>
+
+  <h3>第一步 — 建一把「鑰匙」(只做一次,約 5 分鐘)</h3>
+  <ol>
+    <li>打開 <code>github.com/settings/personal-access-tokens/new</code></li>
+    <li><strong>Token name</strong>:打「Claude 更新網站」</li>
+    <li><strong>Expiration</strong>:選 90 天</li>
+    <li><strong>Repository access</strong>:選 <em>Only select repositories</em>,勾選 <code>verdantwanderlust-studio.github.io</code></li>
+    <li><strong>Permissions</strong> 只改這兩項:
+      <ul>
+        <li><strong>Contents</strong> → Read and write</li>
+        <li><strong>Metadata</strong> → Read-only(通常自動勾上)</li>
+      </ul>
+    </li>
+    <li>點 <strong>Generate token</strong></li>
+    <li>把那串 <code>github_pat_…</code> 複製起來,貼到記事本暫存</li>
+  </ol>
+
+  <h3>第二步 — 在 Claude Desktop 加 connector</h3>
+  <ol>
+    <li>開 Claude Desktop → 頭像 → <strong>Settings</strong> → <strong>Connectors</strong></li>
+    <li>點 <strong>Add custom connector</strong></li>
+    <li>URL 貼:<code>https://api.githubcopilot.com/mcp/</code></li>
+    <li>照畫面用 GitHub 登入授權(或貼上第一步的鑰匙)</li>
+    <li>完成後<strong>重開 Claude Desktop</strong></li>
+  </ol>
+
+  <h3>第三步 — 測試</h3>
+  <pre><code>幫我看一下 verdant 那個專案,about.yaml 現在的內容是什麼?</code></pre>
+  <p>讀得到就成功。再試「幫我把 lede 改成 ⋯⋯,然後 commit 到 main」。</p>
+
+  <div class="note"><span class="lbl">如果第二步說「無法連線 / not available」</span>代表你的 GitHub 帳號還沒被開通這功能(目前限量中)。別卡在這 —— 直接用<strong>方式一</strong>一樣能更新。想要對話式的話,把這份的「方式三」轉給 Jason。</div>
+
+  <h2><span class="num">03</span>本機 server<span class="tag brass">給 Jason</span></h2>
+  <div class="card dev">
+    <div class="note dev"><span class="lbl">這段給工程師看 · Ivy 不用懂</span>remote connector 還在限量,要保證 Ivy 能用對話式,改掛 local GitHub MCP server。</div>
+    <p>Claude Desktop 設定檔(macOS):<br><code>~/Library/Application Support/Claude/claude_desktop_config.json</code></p>
+    <pre><code>{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@github/github-mcp-server@latest"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "github_pat_在這裡貼上"
+      }
+    }
+  }
+}</code></pre>
+    <ul>
+      <li>需要機器有 Node.js(<code>npx</code>)</li>
+      <li>token 用同一把 fine-grained PAT(限該 repo、Contents 讀寫)</li>
+      <li>存好後重開,Settings → Connectors 應看到 <code>github</code> 已啟用</li>
+      <li>這條不靠限量 rollout、保證可用,代價是編一次 JSON + 裝 Node</li>
+    </ul>
+  </div>
+
+  <hr>
+  <h3>重點提醒</h3>
+  <ul>
+    <li>不論哪種方式,Pages 都會在 push 後 <strong>3–5 分鐘自動上線</strong>,你不用做別的。</li>
+    <li>改 YAML 只動<strong>引號裡的中文</strong>,符號別碰。</li>
+    <li>不確定有沒有成功 → 問 Claude「有上線嗎」,或開網站重整看看。</li>
+    <li>真的卡住 → 找 Jason,不丟臉。</li>
+  </ul>
+
+  <p class="foot">景觀丸藝 · Verdant Wanderlust — 網站維護指南</p>
+
+</main>
+</body>
+</html>
