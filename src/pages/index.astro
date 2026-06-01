@@ -9,8 +9,7 @@ import { Image } from 'astro:assets';
 // 4. 中段 4 dot carousel(現:Ivy 長型生態照)
 // 5. 底部 About / Contact CTA(Ivy 說 footer 設計她還在思考)
 
-// TODO 文案校準:Ivy 是 terrarium / 生態瓶工作室,目前 lede / desc 偏「大型景觀」需要 Ivy 確認用詞
-const aboutLede = '景觀設計、庭園諮詢、長期監造維護。我們相信好的庭園,是一段慢慢長出來的關係。';
+const aboutLede = '玻璃裡的微縮地景。我們把一段濕潤的森林、一塊長苔的石,封進透明的容器裡,讓它自己呼吸、自己慢慢長。';
 
 // 9 張作品縮圖(同 Portfolio)— 給作品集卡的 marquee 用
 import t01 from '~/assets/portfolio/01-terrarium-vw.jpg';
@@ -38,14 +37,14 @@ const entries = [
     href: '/portfolio',
     zh: '作品集',
     en: 'Portfolio',
-    desc: '近年案場與作品紀錄',
+    desc: '近年生態瓶與微景觀紀錄',
     hasMarquee: true,
   },
   {
     href: '/courses',
     zh: '工作坊',
     en: 'Workshop',
-    desc: '植栽與庭園維護課程',
+    desc: '苔蘚生態瓶手作課程',
     hasMarquee: false,
   },
   {
@@ -59,7 +58,7 @@ const entries = [
 ---
 <Base
   title="景觀丸藝 / Verdant Wanderlust"
-  description="景觀設計、庭園諮詢、長期監造維護。"
+  description="玻璃裡的微縮地景 —— 苔蘚生態瓶與微景觀工作室。"
 >
   <!-- About 簡介橫條 -->
   <a class="about-band" href="/about" transition:name="about-band">
