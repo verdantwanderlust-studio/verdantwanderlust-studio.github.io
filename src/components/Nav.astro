@@ -51,7 +51,6 @@ const socials = {
             {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
           >
             {l.zh}
-            {l.external && <span class="ext" aria-hidden="true">↗</span>}
           </a>
         </li>
       ))}
@@ -121,7 +120,6 @@ const socials = {
   .links a {
     display: flex;
     align-items: center;
-    gap: 4px;
     font-family: var(--font-body);
     font-size: 0.95rem;
     font-weight: 500;
@@ -131,12 +129,6 @@ const socials = {
   }
   .links a:hover { color: var(--ink); }
   .links a.active { color: var(--ink); }
-  .links .ext {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--brass);
-    margin-left: 2px;
-  }
 
   @media (max-width: 768px) {
     .wrap { flex-wrap: wrap; gap: var(--s-3); }
