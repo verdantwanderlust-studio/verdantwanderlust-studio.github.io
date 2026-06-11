@@ -1,25 +1,24 @@
 /* ============================================================
    Verdant Wanderlust / 景觀丸藝 — Design Tokens
-   ------------------------------------------------------------
-   Dark theme: black background, white text
+   Dark theme: black background, all white text
 ============================================================ */
 
 :root {
-  /* ---- 色彩(暗色主題)---- */
-  --bg:            #000000;  /* 頁面背景 */
-  --surface:       #111111;  /* 卡片 / 浮層 */
-  --surface-alt:   #1A1A1A;  /* 交替區塊 / footer / nav 底 */
+  /* ---- 色彩 ---- */
+  --bg:            #000000;
+  --surface:       #111111;
+  --surface-alt:   #1A1A1A;
   --border:        #2A2A2A;
   --border-strong: #3A3A3A;
 
-  --ink:    #FFFFFF;  /* 內文 */
-  --muted:  #AAAAAA;  /* 次要文字 */
-  --subtle: #666666;  /* meta / caption */
+  --ink:    #FFFFFF;
+  --muted:  #FFFFFF;
+  --subtle: #FFFFFF;
 
-  --accent:      #4CAF7D;  /* 主色:logo / kicker / CTA / link */
-  --accent-hover:#5DC98E;
-  --accent-weak: #0D2018;  /* 淺底 / tag / highlight */
-  --brass:       #C4A05A;  /* 副色(極克制) */
+  --accent:      #FFFFFF;
+  --accent-hover:#FFFFFF;
+  --accent-weak: #1A1A1A;
+  --brass:       #FFFFFF;
 
   /* ---- 字體 ---- */
   --font-display: 'Cormorant Garamond', 'Noto Serif TC', serif;
@@ -46,7 +45,7 @@
   /* ---- 陰影 ---- */
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.5);
 
-  /* ---- 動效(Emil Kowalski 規格)---- */
+  /* ---- 動效 ---- */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-micro: 150ms;
   --dur-enter: 280ms;
