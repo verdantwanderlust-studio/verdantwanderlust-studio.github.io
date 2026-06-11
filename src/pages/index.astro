@@ -2,8 +2,6 @@
 import Base from '~/layouts/Base.astro';
 import { Image } from 'astro:assets';
 
-const aboutLede = '玻璃裡的微縮地景。我們把一段濕潤的森林、一塊長苔的石,封進透明的容器裡,讓它自己呼吸、自己慢慢長。';
-
 import t01 from '~/assets/portfolio/01-terrarium-vw.jpg';
 import t02 from '~/assets/portfolio/02.jpg';
 import t03 from '~/assets/portfolio/03.jpg';
@@ -56,7 +54,6 @@ const entries = [
     <div class="column band-inner">
       <p class="kicker">關於 / About</p>
       <h1>將山林，收藏進日常</h1>
-      <p class="lede">{aboutLede}</p>
       <span class="more">繼續閱讀 →</span>
     </div>
   </a>
@@ -169,12 +166,6 @@ const entries = [
     font-size: clamp(2rem, 5vw, var(--t-hero));
     line-height: var(--lh-tight);
     letter-spacing: var(--track-tight);
-    margin: 0 0 var(--s-6) 0;
-  }
-  .about-band .lede {
-    color: var(--muted);
-    font-size: var(--t-lg);
-    max-width: 640px;
     margin: 0 0 var(--s-6) 0;
   }
   .about-band .more {
