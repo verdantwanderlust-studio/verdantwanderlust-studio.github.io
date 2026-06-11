@@ -22,8 +22,8 @@
 
   /* ---- 字體 ---- */
   --font-display: 'Cormorant Garamond', 'Noto Serif TC', serif;
-  --font-body:    'Noto Serif TC', serif;
-  --font-mono:    'JetBrains Mono', monospace;
+  --font-body:    'Cormorant Garamond', 'Noto Serif TC', serif;
+  --font-mono:    'Cormorant Garamond', serif;
 
   --t-xs: 0.8rem;   --t-sm: 0.875rem; --t-base: 1rem;
   --t-lg: 1.25rem;  --t-xl: 1.563rem; --t-2xl: 1.953rem;
