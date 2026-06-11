@@ -5,11 +5,11 @@ import logoMark from '~/assets/logo/wanderlust-mark.png';
 const pathname = Astro.url.pathname;
 
 const links = [
-  { href: '/about',     zh: '關於',   en: 'About' },
-  { href: '/portfolio', zh: '作品集', en: 'Portfolio' },
-  { href: '/courses',   zh: '課程',   en: 'Courses' },
-  { href: 'https://www.pinkoi.com/', zh: '購物', en: 'Shop', external: true },
-  { href: '/contact',   zh: '聯繫',   en: 'Contact' },
+  { href: '/about',     zh: '關於',   external: false },
+  { href: '/portfolio', zh: '作品集', external: false },
+  { href: '/courses',   zh: '課程',   external: false },
+  { href: 'https://www.pinkoi.com/', zh: '購物', external: true },
+  { href: '/contact',   zh: '聯繫',   external: false },
 ];
 
 const isActive = (href: string) =>
@@ -50,8 +50,7 @@ const socials = {
             class:list={[{ active: !l.external && isActive(l.href) }]}
             {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
           >
-            <span class="zh">{l.zh}</span>
-            <span class="en">{l.en}</span>
+            {l.zh}
             {l.external && <span class="ext" aria-hidden="true">↗</span>}
           </a>
         </li>
@@ -121,27 +120,17 @@ const socials = {
   }
   .links a {
     display: flex;
-    align-items: baseline;
-    gap: 6px;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 500;
     color: var(--muted);
     border-bottom: none;
     transition: color var(--dur-micro) var(--ease);
   }
-  .links a:hover { color: var(--accent); }
-  .links a.active { color: var(--accent); }
-  .links .zh {
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
-  .links .en {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--subtle);
-  }
-  .links a:hover .en, .links a.active .en { color: var(--accent); }
+  .links a:hover { color: var(--ink); }
+  .links a.active { color: var(--ink); }
   .links .ext {
     font-family: var(--font-mono);
     font-size: 0.7rem;
@@ -154,6 +143,5 @@ const socials = {
     .socials { margin-right: 0; }
     .links { gap: var(--s-3); width: 100%; justify-content: space-between; }
     .mark-img { height: 32px; }
-    .links .en { display: none; }
   }
 </style>
