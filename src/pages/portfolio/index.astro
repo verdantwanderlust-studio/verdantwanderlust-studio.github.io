@@ -102,7 +102,7 @@ const works = [
 </Base>
 
 <style>
-  .portfolio-page { background: #FFFFFF; min-height: 100vh; }
+  .portfolio-page { background: var(--bg); min-height: 100vh; }
 
   .port-header {
     padding: var(--s-12) 0 var(--s-8);
@@ -154,11 +154,11 @@ const works = [
     overflow: hidden;
   }
 
-  .front { background: #FAFAFA; }
+  .front { background: var(--surface); }
   .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .back {
-    background: #FFFFFF;
+    background: var(--surface);
     transform: rotateY(180deg);
     padding: var(--s-6);
     display: flex;
@@ -212,7 +212,7 @@ const works = [
   .modal-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(35, 42, 32, 0.55);
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(4px);
     cursor: pointer;
   }
@@ -220,7 +220,7 @@ const works = [
   .modal-box {
     position: relative;
     z-index: 1;
-    background: #FFFFFF;
+    background: var(--surface);
     border-radius: var(--r-lg);
     width: min(920px, 92vw);
     max-height: 88vh;
@@ -255,7 +255,7 @@ const works = [
   }
 
   .modal-img-wrap {
-    background: #FAFAFA;
+    background: var(--surface-alt);
     border-right: 1px solid var(--border);
     overflow: hidden;
   }
@@ -331,7 +331,6 @@ const works = [
   const closeBtn = modal.querySelector('.modal-close') as HTMLElement;
 
   function openModal(card: HTMLElement) {
-    // 直接用已載入的縮圖 src，避免重新抓圖造成延遲
     const thumb = card.querySelector<HTMLImageElement>('.thumb-img');
     modalImg.src = thumb?.currentSrc || thumb?.src || '';
     modalImg.alt = card.dataset.title || '';
