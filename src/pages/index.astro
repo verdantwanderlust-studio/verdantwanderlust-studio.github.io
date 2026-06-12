@@ -2,16 +2,6 @@
 import Base from '~/layouts/Base.astro';
 import { Image } from 'astro:assets';
 
-// 對齊 Ivy 草稿 image 1:
-// 1. About 簡介橫條(全寬,點 → /about)
-// 2. 三大入口卡(作品集 / 工作坊 / 商業合作,雙語,target=_blank)
-// 3. 作品集卡內極簡 marquee(現:9 張作品縮圖)
-// 4. 中段 4 dot carousel(現:Ivy 長型生態照)
-// 5. 底部 About / Contact CTA(Ivy 說 footer 設計她還在思考)
-
-const aboutLede = '玻璃裡的微縮地景。我們把一段濕潤的森林、一塊長苔的石,封進透明的容器裡,讓它自己呼吸、自己慢慢長。';
-
-// 9 張作品縮圖(同 Portfolio)— 給作品集卡的 marquee 用
 import t01 from '~/assets/portfolio/01-terrarium-vw.jpg';
 import t02 from '~/assets/portfolio/02.jpg';
 import t03 from '~/assets/portfolio/03.jpg';
@@ -24,7 +14,6 @@ import t09 from '~/assets/portfolio/09-lion-king.png';
 
 const marqueeImgs = [t01, t02, t03, t04, t05, t06, t07, t08, t09];
 
-// 4 張長型 featured 照
 import f01 from '~/assets/featured/01.jpg';
 import f02 from '~/assets/featured/02.jpg';
 import f03 from '~/assets/featured/03.jpg';
@@ -64,8 +53,7 @@ const entries = [
   <a class="about-band" href="/about" transition:name="about-band">
     <div class="column band-inner">
       <p class="kicker">關於 / About</p>
-      <h1>介紹景觀丸藝</h1>
-      <p class="lede">{aboutLede}</p>
+      <h1>將山林，收藏進日常</h1>
       <span class="more">繼續閱讀 →</span>
     </div>
   </a>
@@ -117,9 +105,6 @@ const entries = [
     </div>
   </section>
 
-  <!-- 中段 carousel:Ivy 長型照(從 Drive 同步)
-       Q2 還沒答完 — 等 Ivy 確認這 4 張要不要配文字 / 換內容方向。
-       目前只是靜態擺第 1 張,dot 切換 JS 還沒寫(留給之後 Embla island)。-->
   <section class="featured">
     <div class="column">
       <p class="kicker">FEATURED</p>
@@ -147,7 +132,6 @@ const entries = [
     </div>
   </section>
 
-  <!-- 底部 CTA(Ivy 說 footer 設計她還在思考,先用簡單 CTA 接 footer) -->
   <section class="bottom-cta">
     <div class="column cta-grid">
       <a href="/about" class="cta">
@@ -171,9 +155,7 @@ const entries = [
     padding: var(--s-24) 0;
     color: var(--ink);
     border-top: none;
-    transition: background var(--dur-enter) var(--ease);
   }
-  .about-band:hover { background: var(--accent-weak); border: none; }
   .band-inner { text-align: left; }
   .about-band .kicker {
     margin: 0 0 var(--s-4) 0;
@@ -184,12 +166,6 @@ const entries = [
     font-size: clamp(2rem, 5vw, var(--t-hero));
     line-height: var(--lh-tight);
     letter-spacing: var(--track-tight);
-    margin: 0 0 var(--s-6) 0;
-  }
-  .about-band .lede {
-    color: var(--muted);
-    font-size: var(--t-lg);
-    max-width: 640px;
     margin: 0 0 var(--s-6) 0;
   }
   .about-band .more {
@@ -210,7 +186,7 @@ const entries = [
   }
   .entry {
     display: block;
-    min-width: 0; /* 防止 marquee 內容把 grid column 撐爆 */
+    min-width: 0;
     border: 1px solid var(--border);
     border-radius: var(--r-md);
     padding: var(--s-6);
@@ -263,7 +239,7 @@ const entries = [
     font-size: var(--t-sm);
   }
 
-  /* ============ Marquee(極簡執行:慢、無斷縫、hover 暫停)============ */
+  /* ============ Marquee ============ */
   .marquee {
     width: 100%; height: 100%;
     overflow: hidden;
@@ -300,16 +276,8 @@ const entries = [
     .marquee-track { animation: none; }
   }
 
-  /* ============ 中段 carousel placeholder ============ */
+  /* ============ 中段 carousel ============ */
   .featured { padding: var(--s-16) 0; border-top: 1px solid var(--border); }
-  .muted-h {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: var(--t-sm);
-    color: var(--subtle);
-    margin: var(--s-3) 0 var(--s-8) 0;
-    max-width: 720px;
-  }
   .carousel {
     border: 1px solid var(--border);
     border-radius: var(--r-md);
@@ -351,7 +319,7 @@ const entries = [
   .dot.active { background: var(--accent); transform: scale(1.3); }
   .dot:hover { background: var(--accent); }
 
-  /* ============ Bottom CTA(About / Contact)============ */
+  /* ============ Bottom CTA ============ */
   .bottom-cta { padding: var(--s-12) 0 var(--s-16); border-top: 1px solid var(--border); }
   .cta-grid {
     display: grid;
