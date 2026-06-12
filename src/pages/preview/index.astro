@@ -37,12 +37,12 @@ const featured = [
   { img: f04, cap: '光,從上方落進瓶中' },
 ];
 
-// TODO 文案校準(Ivy 是 terrarium 工作室,非大型景觀)
-const aboutLede = '玻璃裡的微縮地景。我們把一段濕潤的森林、一塊長苔的石,封進透明的容器裡,讓它自己呼吸、自己慢慢長。';
+// 文案同步自正式站(about.yaml 第一段 + index.astro entries)
+const aboutLede = '景觀丸藝是一間以植物、生態與空間為核心的設計工作室，透過微景觀創作與自然棲地設計，探索人與自然之間更深層的連結。';
 const entries = [
   { href: '/preview/portfolio', zh: '作品集', en: 'Portfolio',     desc: '近年生態瓶與微景觀紀錄', marquee: true },
   { href: '/preview/courses',   zh: '工作坊', en: 'Workshop',      desc: '苔蘚生態瓶手作課程',     img: shopImg },
-  { href: '/preview/contact',   zh: '商業合作', en: 'Collaboration', desc: '空間綠化 · 品牌訂製 · 展示', img: bizImg },
+  { href: '/preview/contact?type=biz', zh: '商業合作', en: 'Collaborations', desc: '設計案、品牌合作、空間規劃', img: bizImg },
 ];
 ---
 <PreviewLayout title="景觀丸藝 / Verdant Wanderlust" active="home">
@@ -51,8 +51,8 @@ const entries = [
   <a class="about-band" href="/preview/about">
     <div class="pv-wrap band-inner">
       <div class="band-text">
-        <p class="pv-kicker">關於 · About</p>
-        <h1 class="pv-display band-h">介紹<br/>景觀丸藝</h1>
+        <p class="pv-kicker">關於 / About</p>
+        <h1 class="pv-display band-h">將山林，<br/>收藏進日常</h1>
         <p class="band-lede pv-serif">{aboutLede}</p>
         <span class="band-more">繼續閱讀 <span aria-hidden="true">→</span></span>
       </div>
@@ -94,7 +94,7 @@ const entries = [
   <!-- 4 · 中段 carousel + dots -->
   <section class="featured">
     <div class="pv-wrap">
-      <p class="pv-kicker">Featured · 精選</p>
+      <p class="pv-kicker">FEATURED</p>
       <div class="carousel" data-carousel>
         <div class="slides">
           {featured.map((s, i) => (
