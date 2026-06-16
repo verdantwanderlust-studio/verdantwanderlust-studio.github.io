@@ -14,11 +14,6 @@ const links = [
 
 const isActive = (href: string) =>
   href === '/' ? pathname === '/' : pathname.startsWith(href);
-
-const socials = {
-  facebook:  'https://www.facebook.com/p/%E6%99%AF%E8%A7%80%E4%B8%B8%E8%97%9D-61575759762668/',
-  instagram: 'https://www.instagram.com/verdant_wanderlust_tw/',
-};
 ---
 <nav class="top">
   <div class="column wrap">
@@ -32,15 +27,6 @@ const socials = {
         densities={[1, 2]}
       />
     </a>
-
-    <div class="socials" aria-label="社群連結">
-      <a href={socials.facebook} target="_blank" rel="noopener" aria-label="Facebook">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-      </a>
-      <a href={socials.instagram} target="_blank" rel="noopener" aria-label="Instagram">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-      </a>
-    </div>
 
     <ul class="links">
       {links.map(l => (
@@ -90,31 +76,9 @@ const socials = {
     filter: invert(1);
   }
 
-  .socials {
-    display: flex;
-    gap: var(--s-3);
-    align-items: center;
-    padding-left: var(--s-3);
-    border-left: 1px solid var(--border);
-    margin-right: auto;
-  }
-  .socials a {
-    width: 28px; height: 28px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted);
-    border-radius: var(--r-sm);
-    border: none;
-    transition: color var(--dur-micro) var(--ease), background var(--dur-micro) var(--ease);
-  }
-  .socials a:hover {
-    color: var(--accent);
-    background: var(--accent-weak);
-    border: none;
-  }
-
   .links {
     list-style: none;
-    margin: 0; padding: 0;
+    margin: 0 0 0 auto; padding: 0;
     display: flex;
     gap: var(--s-6);
   }
@@ -134,8 +98,7 @@ const socials = {
 
   @media (max-width: 768px) {
     .wrap { flex-wrap: wrap; gap: var(--s-3); }
-    .socials { margin-right: 0; }
-    .links { gap: var(--s-3); width: 100%; justify-content: space-between; }
+    .links { margin-left: 0; gap: var(--s-3); width: 100%; justify-content: space-between; }
     .mark-img { height: 44px; }
   }
 </style>
