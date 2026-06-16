@@ -1,5 +1,10 @@
 ---
 const year = new Date().getFullYear();
+
+const socials = {
+  facebook: 'https://www.facebook.com/p/%E6%99%AF%E8%A7%80%E4%B8%B8%E8%97%9D-61575759762668/',
+  instagram: 'https://www.instagram.com/verdant_wanderlust_tw/',
+};
 ---
 <footer>
   <div class="column wrap">
@@ -9,6 +14,14 @@ const year = new Date().getFullYear();
     </div>
     <div class="right">
       <a href="/contact">Contact</a>
+      <div class="socials" aria-label="社群連結">
+        <a href={socials.facebook} target="_blank" rel="noopener" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href={socials.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        </a>
+      </div>
     </div>
   </div>
 </footer>
@@ -45,6 +58,11 @@ const year = new Date().getFullYear();
     letter-spacing: 0.14em;
     color: var(--subtle);
   }
+  .right {
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+  }
   .right a {
     font-family: var(--font-mono);
     font-size: 0.78rem;
@@ -54,4 +72,15 @@ const year = new Date().getFullYear();
     border-bottom: none;
   }
   .right a:hover { color: var(--accent); }
+  .socials {
+    display: flex;
+    gap: var(--s-3);
+    align-items: center;
+  }
+  .socials a {
+    color: var(--muted);
+    border-bottom: none;
+    display: flex;
+  }
+  .socials a:hover { color: var(--accent); }
 </style>
