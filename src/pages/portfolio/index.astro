@@ -114,7 +114,7 @@ const works = [
     list-style: none; margin: 0; padding: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--s-6);
+    gap: 0;
   }
 
   .card {
@@ -139,7 +139,7 @@ const works = [
     inset: 0;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    border-radius: var(--r-md);
+    border-radius: 0;
     border: 1px solid var(--border);
     overflow: hidden;
   }
@@ -298,7 +298,7 @@ const works = [
   .modal-dl dd { margin: 0; color: var(--ink); line-height: 1.65; }
 
   @media (max-width: 720px) {
-    .grid { grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
     .modal-inner { grid-template-columns: 1fr; }
     .modal-img-wrap { height: 240px; border-right: none; border-bottom: 1px solid var(--border); }
   }
