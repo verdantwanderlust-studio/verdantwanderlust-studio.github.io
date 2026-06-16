@@ -146,9 +146,12 @@ const entries = [
 </Base>
 
 <style>
-  /* ============ About 簡介橫條 ============ */
+  /* ============ About 簡介橫條(Hero · 全螢幕) ============ */
   .about-band {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
     background: var(--surface-alt);
     border-bottom: 1px solid var(--border);
     padding: var(--s-24) 0;
