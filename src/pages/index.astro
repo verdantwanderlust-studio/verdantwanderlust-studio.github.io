@@ -59,7 +59,7 @@ const entries = [
 
   <!-- 三大入口卡片 -->
   <section class="entries">
-    <div class="column">
+    <div class="entries-wrap">
       <ul class="entry-grid">
         {entries.map(e => (
           <li>
@@ -185,8 +185,13 @@ const entries = [
     color: var(--accent);
   }
 
-  /* ============ 三大入口卡 ============ */
+  /* ============ 三大入口卡(滿版 · 直角) ============ */
   .entries { padding: var(--s-24) 0; }
+  .entries-wrap {
+    width: 100%;
+    padding: 0 var(--s-6);
+    box-sizing: border-box;
+  }
   .entry-grid {
     list-style: none; margin: 0; padding: 0;
     display: grid;
@@ -197,7 +202,7 @@ const entries = [
     display: block;
     min-width: 0;
     border: 1px solid var(--border);
-    border-radius: var(--r-md);
+    border-radius: 0;
     padding: var(--s-6);
     background: var(--surface);
     color: var(--ink);
@@ -211,7 +216,7 @@ const entries = [
   .thumb {
     aspect-ratio: 1 / 1;
     background: var(--surface-alt);
-    border-radius: var(--r-sm);
+    border-radius: 0;
     overflow: hidden;
     margin-bottom: var(--s-4);
     display: flex; align-items: center; justify-content: center;
@@ -267,7 +272,7 @@ const entries = [
     flex: 0 0 80px;
     height: 80px;
     background: var(--border);
-    border-radius: var(--r-sm);
+    border-radius: 0;
     overflow: hidden;
     display: block;
   }
