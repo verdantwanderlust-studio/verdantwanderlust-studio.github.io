@@ -51,7 +51,7 @@ const entries = [
 >
   <!-- About 簡介橫條 -->
   <a class="about-band" href="/about" transition:name="about-band">
-    <div class="column band-inner">
+    <div class="band-inner">
       <h1>將山林<br />收藏進日常</h1>
       <span class="more">繼續閱讀 →</span>
     </div>
@@ -152,7 +152,7 @@ const entries = [
   .about-band {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
     background: var(--surface-alt);
     border-bottom: 1px solid var(--border);
@@ -160,7 +160,13 @@ const entries = [
     color: var(--ink);
     border-top: none;
   }
-  .band-inner { text-align: left; }
+  .band-inner {
+    text-align: left;
+    width: 100%;
+    max-width: 560px;
+    padding-left: var(--s-8);
+    box-sizing: border-box;
+  }
   .about-band .kicker {
     margin: 0 0 var(--s-4) 0;
   }
@@ -368,5 +374,6 @@ const entries = [
     .entry-grid { grid-template-columns: 1fr; gap: var(--s-6); }
     .cta-grid { grid-template-columns: 1fr; }
     .about-band { padding: var(--s-16) 0; }
+    .band-inner { padding-left: var(--s-6); max-width: 100%; }
   }
 </style>
