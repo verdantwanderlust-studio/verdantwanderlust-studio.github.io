@@ -22,7 +22,7 @@ const isActive = (href: string) =>
         class="mark-img"
         src={logoMark}
         alt="景觀丸藝"
-        height={84}
+        height={64}
         loading="eager"
         densities={[1, 2]}
       />
@@ -56,7 +56,7 @@ const isActive = (href: string) =>
   }
   .wrap {
     width: 100%;
-    padding: 6px var(--s-6);
+    padding: 0 var(--s-6);
     display: flex;
     align-items: center;
     gap: var(--s-6);
@@ -71,7 +71,7 @@ const isActive = (href: string) =>
   }
   .brand:hover { border: none; }
   .mark-img {
-    height: 84px;
+    height: 64px;
     width: auto;
     display: block;
     filter: invert(1);
@@ -100,6 +100,6 @@ const isActive = (href: string) =>
   @media (max-width: 768px) {
     .wrap { flex-wrap: wrap; gap: var(--s-3); }
     .links { margin-left: 0; gap: var(--s-3); width: 100%; justify-content: space-between; }
-    .mark-img { height: 60px; }
+    .mark-img { height: 48px; }
   }
 </style>
