@@ -16,7 +16,7 @@ const isActive = (href: string) =>
   href === '/' ? pathname === '/' : pathname.startsWith(href);
 ---
 <nav class="top">
-  <div class="column wrap">
+  <div class="wrap">
     <a class="brand" href="/" transition:name="brand-mark" aria-label="景觀丸藝 首頁">
       <Image
         class="mark-img"
@@ -55,6 +55,7 @@ const isActive = (href: string) =>
     border-bottom: 1px solid var(--border);
   }
   .wrap {
+    width: 100%;
     padding: 14px var(--s-6);
     display: flex;
     align-items: center;
