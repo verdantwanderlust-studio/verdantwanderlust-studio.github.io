@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
 /* ============================================================
    Verdant Wanderlust / 景觀丸藝 — Design Tokens
    Dark theme: black background, all white text
@@ -21,9 +23,9 @@
   --brass:       #FFFFFF;
 
   /* ---- 字體 ---- */
-  --font-display: 'Cormorant Garamond', 'Noto Serif TC', serif;
-  --font-body:    'Cormorant Garamond', 'Noto Serif TC', serif;
-  --font-mono:    'Cormorant Garamond', serif;
+  --font-display: 'Montserrat', 'Noto Serif TC', serif;
+  --font-body:    'Montserrat', 'Noto Serif TC', serif;
+  --font-mono:    'Montserrat', serif;
 
   --t-xs: 0.8rem;   --t-sm: 0.875rem; --t-base: 1rem;
   --t-lg: 1.25rem;  --t-xl: 1.563rem; --t-2xl: 1.953rem;
