@@ -146,8 +146,6 @@ const entries = [
 </Base>
 
 <style>
-  @import url("https://fontsapi.zeoseven.com/96/main/result.css");
-
   /* ============ About 簡介橫條(Hero · 全螢幕) ============ */
   .about-band {
     display: flex;
@@ -171,9 +169,9 @@ const entries = [
     margin: 0 0 var(--s-4) 0;
   }
   .about-band h1 {
-    font-family: "辰宇落雁體 Thin", var(--font-display);
-    font-weight: 400;
-    font-size: clamp(2.4rem, 6vw, calc(var(--t-hero) * 1.1));
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, var(--t-hero));
     line-height: var(--lh-tight);
     letter-spacing: var(--track-tight);
     margin: 0 0 var(--s-6) 0;
