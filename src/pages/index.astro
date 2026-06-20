@@ -104,7 +104,7 @@ const entries = [
   </section>
 
   <section class="featured">
-    <div class="column">
+    <div class="featured-wrap">
       <p class="kicker">FEATURED</p>
       <div class="carousel">
         <div class="slides">
@@ -284,8 +284,13 @@ const entries = [
     .marquee-track { animation: none; }
   }
 
-  /* ============ 中段 carousel ============ */
+  /* ============ 中段 carousel(滿版) ============ */
   .featured { padding: var(--s-16) 0; border-top: 1px solid var(--border); }
+  .featured-wrap {
+    width: 100%;
+    padding: 0 var(--s-6);
+    box-sizing: border-box;
+  }
   .carousel {
     border: 1px solid var(--border);
     border-radius: var(--r-md);
