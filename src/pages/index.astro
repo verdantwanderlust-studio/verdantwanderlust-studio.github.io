@@ -52,7 +52,7 @@ const entries = [
   <!-- About 簡介橫條 -->
   <a class="about-band" href="/about" transition:name="about-band">
     <div class="band-inner">
-      <h1>將山林<br />收藏進日常</h1>
+      <h1>將山林,收藏進日常</h1>
       <span class="more">繼續閱讀 →</span>
     </div>
   </a>
@@ -172,11 +172,12 @@ const entries = [
   .about-band h1 {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: 28px;
+    font-size: 38px;
     line-height: var(--lh-tight);
-    letter-spacing: var(--track-tight);
+    letter-spacing: 0.18em;
     margin: 0 0 var(--s-6) 0;
     text-align: center;
+    white-space: nowrap;
   }
   .about-band .more {
     font-family: var(--font-mono);
@@ -379,5 +380,6 @@ const entries = [
     .cta-grid { grid-template-columns: 1fr; }
     .about-band { padding: var(--s-16) 0; }
     .band-inner { max-width: 100%; transform: translateY(-6vh); }
+    .about-band h1 { font-size: 28px; white-space: normal; }
   }
 </style>
