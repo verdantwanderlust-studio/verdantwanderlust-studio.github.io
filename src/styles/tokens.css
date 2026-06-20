@@ -2,16 +2,16 @@
 
 /* ============================================================
    Verdant Wanderlust / 景觀丸藝 — Design Tokens
-   Light theme: white background, all black text
+   Light theme: pure white background, all black text
 ============================================================ */
 
 :root {
   /* ---- 色彩 ---- */
   --bg:            #FFFFFF;
-  --surface:       #F7F7F5;
-  --surface-alt:   #F0F0EE;
-  --border:        #E5E5E1;
-  --border-strong: #D5D5D0;
+  --surface:       #FFFFFF;
+  --surface-alt:   #FFFFFF;
+  --border:        #FFFFFF;
+  --border-strong: #FFFFFF;
 
   --ink:    #000000;
   --muted:  #000000;
@@ -19,7 +19,7 @@
 
   --accent:      #000000;
   --accent-hover:#000000;
-  --accent-weak: #F0F0EE;
+  --accent-weak: #FFFFFF;
   --brass:       #000000;
 
   /* ---- 字體 ---- */
