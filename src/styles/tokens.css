@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap');
 
 /* ============================================================
    Verdant Wanderlust / 景觀丸藝 — Design Tokens
@@ -23,9 +23,9 @@
   --brass:       #000000;
 
   /* ---- 字體 ---- */
-  --font-display: 'Montserrat', 'Noto Serif TC', serif;
-  --font-body:    'Montserrat', 'Noto Serif TC', serif;
-  --font-mono:    'Montserrat', serif;
+  --font-display: 'Futura', 'Century Gothic', 'Trebuchet MS', 'Noto Serif TC', sans-serif;
+  --font-body:    'Futura', 'Century Gothic', 'Trebuchet MS', 'Noto Serif TC', sans-serif;
+  --font-mono:    'Futura', 'Century Gothic', sans-serif;
 
   --t-xs: 0.8rem;   --t-sm: 0.875rem; --t-base: 1rem;
   --t-lg: 1.25rem;  --t-xl: 1.563rem; --t-2xl: 1.953rem;
