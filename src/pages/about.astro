@@ -2,24 +2,20 @@
 import Base from '~/layouts/Base.astro';
 import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
-import heroImg from '~/assets/about/01-hero.jpeg';
-import img03 from '~/assets/about/03.jpeg';
-import img04 from '~/assets/about/04.jpeg';
 
 const { data } = await getEntry('pages', 'about');
 const paras = data.body ?? [];
 
-// 文案全部來自 content/pages/about.yaml,此處不硬寫任何一個字。
-// alt 依照片實際內容描述(2026-07-17 逐張看過)。
-const photos = [
-  { img: img03, alt: '玻璃生態瓶裡的微景觀,苔蘚地被上臥著一隻白色小狗擺件,後方是針葉狀植株' },
-  { img: img04, alt: '玻璃生態瓶裡的微景觀,漂流木與苔蘚構成地景,植著圓葉植株與蕨類' },
-];
+// 圖片與文案全部來自 content/pages/about.yaml,此處不硬寫任何一個字或任何路徑。
+// hero 與 photos 都容許缺席:這份 yaml 是給非工程師編輯的,少一個欄位應該是
+// 「那一塊不顯示」,不該是「整個網站 build 不起來」。
+const heroPhoto = data.hero;
+const photos = data.photos ?? [];
 
 // 前 N 段各配一張照片,其餘全部收進結尾段。
 // 不寫死索引:Ivy 用 skill 改 about.yaml 增減段落時不會有段落靜默消失。
 const sections = photos
-  .map((p, i) => ({ ...p, body: paras[i], reverse: i % 2 === 1 }))
+  .map((p, i) => ({ img: p.src, alt: p.alt, body: paras[i], reverse: i % 2 === 1 }))
   .filter((s) => s.body);
 const restParas = paras.slice(photos.length);
 ---
@@ -30,17 +26,19 @@ const restParas = paras.slice(photos.length);
     <h1>{data.title}</h1>
   </div>
 
-  <header class="editorial-hero">
-    <figure class="hero-media">
-      <Image
-        src={heroImg}
-        alt="雨後林地的近景,苔蘚、蕨類與細小植株長在濕潤的腐植土上"
-        widths={[960, 1440, 1920, 2560]}
-        sizes="100vw"
-        loading="eager"
-      />
-    </figure>
-  </header>
+  {heroPhoto && (
+    <header class="editorial-hero">
+      <figure class="hero-media">
+        <Image
+          src={heroPhoto.src}
+          alt={heroPhoto.alt}
+          widths={[960, 1440, 1920, 2560]}
+          sizes="100vw"
+          loading="eager"
+        />
+      </figure>
+    </header>
+  )}
 
   {sections.map((s) => (
     <section class:list={['motion-section', { reverse: s.reverse }]}>

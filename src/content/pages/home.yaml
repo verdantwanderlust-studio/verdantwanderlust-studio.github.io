@@ -1,0 +1,38 @@
+# 首頁純結構頁,三大入口卡的文字(zh/en/desc/href)仍硬寫在 index.astro
+# (那是版型決策,不是內容文案) —— 這份檔只管首頁用到的圖片。
+# kicker/title 是 pages collection schema 的必填欄位,首頁目前沒有渲染這兩個值,留空。
+kicker: ""
+title: ""
+# marquee:作品集入口卡裡的跑馬燈縮圖,九張,目前 alt="" 是刻意的裝飾性留白
+# (2026-07-17 沿用 index.astro 原本的 alt="" 決定,未經 Ci 確認要不要補上真實 alt)
+marquee:
+  - src: ../../assets/portfolio/01-terrarium-vw.jpg
+    alt: ""
+  - src: ../../assets/portfolio/02.jpg
+    alt: ""
+  - src: ../../assets/portfolio/03.jpg
+    alt: ""
+  - src: ../../assets/portfolio/04.jpg
+    alt: ""
+  - src: ../../assets/portfolio/05.jpg
+    alt: ""
+  - src: ../../assets/portfolio/06.jpg
+    alt: ""
+  - src: ../../assets/portfolio/07-lion-king.png
+    alt: ""
+  - src: ../../assets/portfolio/08-lion-king.png
+    alt: ""
+  - src: ../../assets/portfolio/09-lion-king.png
+    alt: ""
+# featured:中段 carousel 的四張大圖,同樣目前 alt="" 是沿用原狀,未經確認
+# featured:精選作品輪播,四張。這些是有語意的內容照(不是裝飾),
+# 所以 alt 要照實際畫面描述 —— 2026-07-17 逐張開圖看過後寫的。
+featured:
+  - src: ../../assets/featured/01.jpg
+    alt: "雨後林地的近景,苔蘚、蕨類與帶銀白葉紋的小型植株長在濕潤的腐植土上"
+  - src: ../../assets/featured/02.jpg
+    alt: "方形玻璃生態瓶在暗背景中打光,主景是一叢粉白色的鳳梨科植株,頂端附生空氣鳳梨,底部鋪著圓葉地被"
+  - src: ../../assets/featured/03.jpg
+    alt: "圓筒玻璃生態瓶,瓶身印有 VERDANT WANDERLUST,內有苔蘚地被、漂流木、圓葉植株與捲曲的蕨類"
+  - src: ../../assets/featured/04.jpg
+    alt: "一隻黑色鍬形蟲停在覆滿地衣的岩石上,上方垂著蕨類葉片,周圍散落枯葉與細枝"
