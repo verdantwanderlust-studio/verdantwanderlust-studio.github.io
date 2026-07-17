@@ -24,3 +24,6 @@ npm-debug.log*
 # workflow:從 Drive 下載 → raw-images/ 留本地原檔 → cp 到 src/assets/(Astro 處理)
 raw-images/*
 !raw-images/.gitkeep
+
+# update-site skill 的本機設定(Ivy 電腦上的照片資料夾路徑,因機器而異)
+.claude/skills/update-site/config.json

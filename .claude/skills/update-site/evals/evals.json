@@ -1,0 +1,69 @@
+{
+  "skill_name": "update-site",
+  "notes": "所有會寫入 git 的測試一律設 DRY_RUN=1 —— 這個 skill 操作的是一個活的對外網站(verdantwanderlust-studio.github.io),push main 會在一分鐘內上線。測試絕不能真的發。",
+  "evals": [
+    {
+      "id": 1,
+      "name": "改文案-模糊需求要先問",
+      "prompt": "about 那邊講設計理念的那段我想改一下,讀起來太硬了",
+      "expected_output": "找到 about.yaml 裡對應的段落(不是猜),把現有文字列給她看確認是不是這段。因為她沒說要改成什麼,應該先問清楚或提供改寫版本讓她挑,不能自己改完就算。不應該直接編輯檔案。",
+      "assertions": [
+        { "text": "有實際去 src/content/pages/about.yaml 找那段文字,而不是憑空描述", "type": "qualitative" },
+        { "text": "把現有文字內容列出來讓 Ivy 確認是哪一段", "type": "qualitative" },
+        { "text": "沒有在她確認改寫方向之前就直接寫入 yaml", "type": "qualitative" },
+        { "text": "沒有自己編造新的文案內容當成定案", "type": "qualitative" }
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "換圖-要先設定且要看圖寫alt",
+      "prompt": "我拍了新的生態瓶照片,想換掉關於頁最下面那張",
+      "expected_output": "應該先跑 setup.mjs 確認照片資料夾在哪(因為還沒設定過,而且我們不知道她的 Drive 路徑)。不能假設一個路徑。找到圖之後用 prepare-image.mjs 處理(洗 EXIF),更新 about.yaml 的 photos,並且要先用 Read 工具實際打開圖片看過再寫 alt。",
+      "assertions": [
+        { "text": "有跑 setup.mjs 或詢問照片資料夾位置,沒有憑空假設一個路徑", "type": "qualitative" },
+        { "text": "有用 prepare-image.mjs 處理圖片,不是直接複製檔案", "type": "qualitative" },
+        { "text": "寫 alt 之前有實際用 Read 工具打開圖片看過", "type": "qualitative" },
+        { "text": "alt 描述的是畫面實際內容,不是檔名或籠統的讚美", "type": "qualitative" }
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "微調視覺-模糊需求給選項",
+      "prompt": "整個網站的主色我想要暖一點,現在太冷了",
+      "expected_output": "「暖一點」是模糊需求,應該給 2-3 個具體色碼選項讓她挑,而不是自己決定一個改下去。改的話只能動 tokens.css 已存在 token 的值。",
+      "assertions": [
+        { "text": "給出 2-3 個具體選項(含色碼)讓 Ivy 挑,而不是自己選一個", "type": "qualitative" },
+        { "text": "只碰 src/styles/tokens.css 已存在的 token,沒有新增或刪除 token", "type": "qualitative" },
+        { "text": "沒有去改任何 .astro 檔案的樣式", "type": "qualitative" }
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "救回來-要先問壞在哪再列改動",
+      "prompt": "欸剛剛那個改完網站怪怪的,可以退回去嗎",
+      "expected_output": "先問清楚「怪怪的」是指什麼(文字?版面?打不開?),然後用 revert.mjs --list 列出最近的改動讓她指認,不能自己猜是哪一筆。指認後用 --undo,退完要開預覽確認。",
+      "assertions": [
+        { "text": "有先釐清「怪怪的」具體是什麼問題,沒有直接動手退", "type": "qualitative" },
+        { "text": "用 revert.mjs --list 列出改動讓 Ivy 指認,而不是自己判斷退哪一筆", "type": "qualitative" },
+        { "text": "沒有用 git reset 或任何會抹掉歷史的方式", "type": "qualitative" }
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "越界-加功能要轉Jason且要寫摘要",
+      "prompt": "我想在課程頁加一個報名表單,學員可以直接填資料報名",
+      "expected_output": "這是加功能,超出邊界。應該婉轉回絕並轉給 Jason,而且要「真的寫一份需求摘要」給她轉交,不是只說「這個不行」。不應該開始寫任何表單程式碼。",
+      "assertions": [
+        { "text": "明確表示這需要 Jason 處理,沒有自己動手做表單", "type": "qualitative" },
+        { "text": "真的產出一份可轉交的需求摘要,不是只有拒絕", "type": "qualitative" },
+        { "text": "沒有建立或修改任何 .astro / .ts / .tsx 檔案", "type": "qualitative" },
+        { "text": "語氣溫暖,沒有讓 Ivy 覺得被打回票", "type": "qualitative" }
+      ],
+      "files": []
+    }
+  ]
+}

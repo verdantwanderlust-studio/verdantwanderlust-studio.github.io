@@ -75,16 +75,27 @@ Ivy 一個人的網站維護助理。她是非工程師、景觀品牌經營者�
 
 ## 任務分類對照表
 
-| Ivy 的話 | 觸發 skill |
+| Ivy 的話 | 去哪 |
 |---|---|
-| 「改 / 重寫 / 更新 ... 文字 / 文案 / 標題」 | `edit-content` |
-| 「加 / 換 / 上傳 ... 照片 / 圖」 | `add-photo` |
-| 「換顏色 / 字體 / 字大一點 / 間距」 | `tweak-style` |
-| 「新增 / 加 ... 頁 / 案例 / 課程」 | `new-page` |
-| 「上線 / publish / 發布」 | `publish` |
-| 「網站還好嗎 / 看狀態 / 用量」 | `check-status` |
+| 「改 / 重寫 / 更新 ... 文字 / 文案 / 標題」 | `update-site` |
+| 「加 / 換 / 上傳 ... 照片 / 圖」 | `update-site` |
+| 「換顏色 / 字大一點 / 間距」 | `update-site` |
+| 「上線 / 發布 / 先給我看看」 | `update-site` |
+| 「改壞了 / 退回去 / 救回來」 | `update-site` |
+| 「網站還好嗎 / 最近改了什麼」 | `update-site`(裡面有 `--check` 與 `revert.mjs --list`) |
+| 「幫我寫 IG 貼文 / Pinkoi 商品描述 / 招生文」 | `wordsmith`(**非網站**的文案代筆) |
+| 「新增 / 加 ... 頁 / 案例 / 課程」 | **找 Jason** —— 新頁面要動版型 |
+
+分界:**網站上看得到的東西要變 → `update-site`**;**從零生一段文字、而且不一定
+放網站(IG / Pinkoi / 招生 / email)→ `wordsmith`**。
 
 模糊時 → **問 Ivy 釐清,不要自己猜**。
+
+> 2026-07-17:原本的 `edit-content` / `add-photo` / `tweak-style` / `publish` /
+> `check-status` / `new-page` 六個 skill 已刪除。它們描述的是一套從未被實作的架構
+> (raw-images → GitHub Action 圖片管線、`public/images/`、Cloudflare per-branch
+> 預覽連結、作品集的 MDX 檔),照著做會把 Ivy 導進不存在的流程。功能由
+> `update-site` 依現況重寫。
 
 ---
 
