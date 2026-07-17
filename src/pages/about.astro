@@ -1,43 +1,300 @@
 ---
 import Base from '~/layouts/Base.astro';
+import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
+import heroImg from '~/assets/about/01-hero.jpeg';
+import img03 from '~/assets/about/03.jpeg';
+import img04 from '~/assets/about/04.jpeg';
 
 const { data } = await getEntry('pages', 'about');
+const paras = data.body ?? [];
+
+// 文案全部來自 content/pages/about.yaml,此處不硬寫任何一個字。
+// alt 依照片實際內容描述(2026-07-17 逐張看過)。
+const photos = [
+  { img: img03, alt: '玻璃生態瓶裡的微景觀,苔蘚地被上臥著一隻白色小狗擺件,後方是針葉狀植株' },
+  { img: img04, alt: '玻璃生態瓶裡的微景觀,漂流木與苔蘚構成地景,植著圓葉植株與蕨類' },
+];
+
+// 前 N 段各配一張照片,其餘全部收進結尾段。
+// 不寫死索引:Ivy 用 skill 改 about.yaml 增減段落時不會有段落靜默消失。
+const sections = photos
+  .map((p, i) => ({ ...p, body: paras[i], reverse: i % 2 === 1 }))
+  .filter((s) => s.body);
+const restParas = paras.slice(photos.length);
 ---
 <Base title="About · 景觀丸藝" description="關於景觀丸藝。">
-  <article class="column page">
+  <div class="page-head">
     <p class="kicker">{data.kicker}</p>
+    {/* title 目前是空字串,h1:empty 會隱藏;Ivy 之後在 about.yaml 填了就會出現 */}
     <h1>{data.title}</h1>
-    <p class="lede">{data.lede}</p>
+  </div>
 
-    <div class="body">
-      {data.body?.map((para) => <p>{para}</p>)}
-    </div>
-  </article>
+  <header class="editorial-hero">
+    <figure class="hero-media">
+      <Image
+        src={heroImg}
+        alt="雨後林地的近景,苔蘚、蕨類與細小植株長在濕潤的腐植土上"
+        widths={[960, 1440, 1920, 2560]}
+        sizes="100vw"
+        loading="eager"
+      />
+    </figure>
+  </header>
+
+  {sections.map((s) => (
+    <section class:list={['motion-section', { reverse: s.reverse }]}>
+      <div class="motion-photo">
+        <div class="image-block">
+          <Image
+            src={s.img}
+            alt={s.alt}
+            widths={[640, 960, 1440]}
+            sizes="(max-width: 980px) 100vw, 56vw"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      <article class="motion-text">
+        <div class="text-block"><p>{s.body}</p></div>
+      </article>
+    </section>
+  ))}
+
+  {restParas.length > 0 && (
+    <section class="closing">
+      {restParas.map((para) => <p>{para}</p>)}
+    </section>
+  )}
 </Base>
 
 <style>
-  .page {
-    padding: var(--s-16) 0 var(--s-24);
-    max-width: 720px;
+  /* ---- 頁面標籤 ---- */
+  .page-head {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: var(--s-12) var(--s-6) var(--s-6);
   }
-  h1 {
+  .page-head h1 {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 30px;
     letter-spacing: var(--track-tight);
     line-height: var(--lh-tight);
-    margin: var(--s-3) 0 var(--s-8) 0;
+    margin: var(--s-3) 0 0 0;
   }
-  h1:empty {
-    display: none;
+  /* about.yaml 的 title 目前是空字串 —— 沿用 verdant 原版的隱藏規則 */
+  .page-head h1:empty { display: none; }
+
+  /* ---- Hero:滿版照片,不放字(沿用 draft 的 photo-only 決定) ---- */
+  .editorial-hero {
+    position: relative;
+    height: 100svh;
+    min-height: 520px;
+    overflow: hidden;
+    background: var(--ink);
   }
-  .body {
-    margin-top: var(--s-12);
-    line-height: 1.85;
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    overflow: hidden;
+    /* 不加 will-change:JS 只動它裡面的 img,不動這層 */
+  }
+  .hero-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+    display: block;
+    transform: scale(1.12);
+    will-change: transform;
+  }
+
+  /* ---- 三段照片/文字交錯 ---- */
+  .motion-section {
+    position: relative;
+    min-height: 100svh;
+    background: var(--bg);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 44% 56%;
+    align-items: stretch;
+    padding: clamp(24px, 3.6vw, 58px);
+  }
+  .motion-photo,
+  .motion-text {
+    position: relative;
+    min-height: calc(100svh - clamp(48px, 7.2vw, 116px));
+    display: grid;
+    align-items: stretch;
+    will-change: transform, opacity;
+  }
+  .motion-photo {
+    order: 2;
+    padding-left: clamp(18px, 2.8vw, 48px);
+    transform: translateX(18vw) scale(0.9);
+    opacity: 0.5;
+  }
+  .motion-text {
+    order: 1;
+    padding-right: clamp(26px, 5vw, 86px);
+    transform: translateX(-18vw) scale(0.96);
+    opacity: 0.42;
+  }
+  .motion-section.reverse { grid-template-columns: 56% 44%; }
+  .motion-section.reverse .motion-photo {
+    order: 1;
+    padding-left: 0;
+    padding-right: clamp(18px, 2.8vw, 48px);
+    transform: translateX(-18vw) scale(0.9);
+  }
+  .motion-section.reverse .motion-text {
+    order: 2;
+    padding-right: 0;
+    padding-left: clamp(26px, 5vw, 86px);
+    transform: translateX(18vw) scale(0.96);
+  }
+
+  .image-block {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .image-block :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.18);
+    will-change: transform;
+  }
+
+  .text-block {
+    width: 100%;
+    max-width: 680px;
+    justify-self: start;
+    align-content: center;
+  }
+  .motion-section.reverse .text-block { justify-self: end; }
+  .text-block p {
+    margin: 0;
+    font-size: clamp(19px, 1.3vw, 24px);
+    line-height: var(--lh-zh);
     color: var(--ink);
   }
-  .body p {
+
+  /* ---- 收尾段 ---- */
+  .closing {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--s-24) var(--s-6);
+  }
+  .closing p {
     margin: 0 0 var(--s-6) 0;
+    font-size: clamp(18px, 1.15vw, 21px);
+    line-height: var(--lh-zh);
+    color: var(--ink);
+  }
+  .closing p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 980px) {
+    .page-head { padding-top: var(--s-8); }
+    .editorial-hero { height: 68svh; min-height: 420px; }
+    .motion-section,
+    .motion-section.reverse {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding: var(--s-6);
+      gap: var(--s-6);
+    }
+    .motion-photo,
+    .motion-text,
+    .motion-section.reverse .motion-photo,
+    .motion-section.reverse .motion-text {
+      order: initial;
+      min-height: auto;
+      padding: 0;
+      transform: translateY(44px) scale(0.94);
+      opacity: 0.42;
+    }
+    .image-block { height: min(64svh, 620px); }
+    .text-block { max-width: none; }
+  }
+
+  /* ---- reduced-motion:JS 不跑,CSS 直接把所有起始位移歸位 ---- */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-media,
+    .hero-media :global(img),
+    .motion-photo,
+    .motion-text,
+    .image-block :global(img) {
+      transform: none !important;
+      opacity: 1 !important;
+    }
   }
 </style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  let ctx: gsap.Context | undefined;
+
+  function initAboutMotion() {
+    ctx?.revert();
+    ctx = undefined;
+
+    if (!document.querySelector('.editorial-hero')) return; // 不是 About 頁
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    ctx = gsap.context(() => {
+      // Hero:照片隨捲動緩緩退遠
+      gsap.fromTo('.hero-media img',
+        { scale: 1.12 },
+        {
+          scale: 1.03,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.editorial-hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 0.8,
+            refreshPriority: 0,
+          },
+        },
+      );
+
+      // 三段:照片與文字從兩側回到中線
+      gsap.utils.toArray<HTMLElement>('.motion-section').forEach((section, index) => {
+        const photo = section.querySelector('.motion-photo');
+        const text = section.querySelector('.motion-text');
+        const image = section.querySelector('.image-block img');
+
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            end: 'center center',
+            scrub: 0.9,
+            refreshPriority: index + 1,
+          },
+        })
+          .to(photo, { x: 0, y: 0, scale: 1, opacity: 1, ease: 'none' }, 0)
+          .to(text, { x: 0, y: 0, scale: 1, opacity: 1, ease: 'none' }, 0.05)
+          .to(image, { scale: 1.03, ease: 'none' }, 0);
+      });
+
+      ScrollTrigger.refresh();
+    });
+  }
+
+  // ClientRouter 開著,每次前端換頁都要重掛;離開前先清乾淨
+  document.addEventListener('astro:page-load', initAboutMotion);
+  document.addEventListener('astro:before-swap', () => {
+    ctx?.revert();
+    ctx = undefined;
+  });
+</script>

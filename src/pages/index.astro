@@ -1,5 +1,6 @@
 ---
 import Base from '~/layouts/Base.astro';
+import MossHero from '~/components/MossHero.astro';
 import { Image } from 'astro:assets';
 
 import t01 from '~/assets/portfolio/01-terrarium-vw.jpg';
@@ -49,12 +50,9 @@ const entries = [
   title="景觀丸藝 / Verdant Wanderlust"
   description="玻璃裡的微縮地景 —— 苔蘚生態瓶與微景觀工作室。"
 >
-  <!-- About 簡介橫條 -->
-  <a class="about-band" href="/about" transition:name="about-band">
-    <div class="band-inner">
-      <h1>將山林,收藏進日常</h1>
-    </div>
-  </a>
+  <!-- Hero:苔蘚樹枝互動主視覺(客製,D18 已核准的破例 · 2026-07-17)
+       h1「將山林,收藏進日常」由 MossHero 自身持有,沿用原 .about-band 的同一句 -->
+  <MossHero />
 
   <!-- 三大入口卡片 -->
   <section class="entries">
@@ -145,40 +143,7 @@ const entries = [
 </Base>
 
 <style>
-  /* ============ About 簡介橫條(Hero · 全螢幕) ============ */
-  .about-band {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: var(--surface-alt);
-    border-bottom: 1px solid var(--border);
-    padding: var(--s-24) 0;
-    color: var(--ink);
-    border-top: none;
-  }
-  .band-inner {
-    text-align: center;
-    width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
-    transform: translateY(-8vh);
-    box-sizing: border-box;
-  }
-  .about-band .kicker {
-    margin: 0 0 var(--s-4) 0;
-  }
-  .about-band h1 {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 38px;
-    line-height: var(--lh-tight);
-    letter-spacing: 0.18em;
-    margin: 0;
-    text-align: center;
-    white-space: nowrap;
-    color: #3a4914;
-  }
+  /* Hero 樣式由 MossHero.astro 自帶(scoped),此處不再有 .about-band */
 
   /* ============ 三大入口卡(滿版 · 直角) ============ */
   .entries { padding: var(--s-24) 0; }

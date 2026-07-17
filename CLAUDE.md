@@ -120,10 +120,16 @@ Ivy 一個人的網站維護助理。她是非工程師、景觀品牌經營者�
 
 **仍然禁用**(無條件):
 1. **WebGL 流體 / Aurora / Silk / 動態 gradient 背景** — 立刻變 AI tool 落地頁
+   — **例外(2026-07-17 Jason 核准)**:首頁 hero 的苔蘚樹枝主視覺(`src/components/MossHero.astro`)
+   是刻意破例,用 three.js 做滑鼠殘跡效果。理由:它壓在 Ivy 自己拍的實景照片上,不是程式化的
+   抽象漸層,不會讀成 AI 工具。**這個例外只限首頁 hero 這一個 component**,其餘頁面、其餘區塊
+   照舊全禁。Ivy 若要調整這個 hero → 轉給 Jason,不要自己動。
 2. **3D / WebGL polygon 植栽** — polygon 比照片醜,暗示「科技公司」
 3. **animated number counter**(「12 年經驗 · 80 案場」)— startup pitch 語言,數字會自己說話
 4. **bento grid**(分割大小不一的網格)— SaaS landing 簽名
 5. **全站 smooth scroll(Lenis 類)** — 破壞 macOS 慣性 scroll
+   — 註:About 頁用 GSAP ScrollTrigger 做捲動揭露,那是「捲到哪播到哪」,沒有接管捲動本身,
+   不算 smooth scroll,不違反本條。
 
 **允許但要極簡執行**(已對齊 Ivy 草稿要的):
 - **Marquee 跑馬燈**:極慢(≥ 60s 一輪)、無斷縫、hover 暫停、純照片橫移、無 hover 特效

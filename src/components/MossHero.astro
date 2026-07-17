@@ -1,0 +1,299 @@
+---
+/* MossHero — 白底苔蘚樹枝互動主視覺(從 /preview/ivy 扶正進正式站)。
+   游標滑過樹枝播種孢子、離開後自主生長;孢子⇄枯萎切換;森林音開關。
+   置於 Base layout 內(共用 Nav / Footer / 字型),不 pin;往下滑直接進首頁內容。 */
+---
+  <section class="iv-hero" id="hero">
+    <div class="iv-copy" id="heroCopy">
+      <h1 class="iv-title">將山林,收藏進日常</h1>
+    </div>
+
+    <!-- 反應樹枝:WebGL canvas mount + 靜態 fallback -->
+    <div class="iv-stage" id="stage">
+      <div class="iv-scene" id="scene">
+        <div class="iv-gl" id="branchGl"></div>
+        <img class="iv-branch-fallback" id="branchFallback" src="/preview-ivy/tree-healthy.webp" alt="長滿苔蘚的樹枝" loading="eager" fetchpriority="high" decoding="async" />
+      </div>
+    </div>
+
+    <div class="iv-controls">
+      <button class="iv-effect" id="effectBtn" aria-pressed="false">
+        <span class="fx-dot"></span><span class="fx-label">孢子長大</span><span class="fx-swap">⇄ 枯萎</span>
+      </button>
+      <button class="iv-track" id="trackBtn" aria-label="切換音樂">♪ <span class="trk-label">EL 水滴鳥鳴 v2</span> <span class="trk-swap">⇄</span></button>
+      <button class="iv-sound" id="soundBtn" aria-pressed="false">
+        <span class="snd-label">SOUND ON</span>
+        <span class="snd-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </button>
+    </div>
+    <audio id="bgm" loop preload="none"></audio>
+
+    <p class="iv-hint" id="scrollHint"><span>向下</span><span class="arr" aria-hidden="true">↓</span></p>
+  </section>
+
+<style>
+  .iv-hero{
+    --w-bg:#FBFAF5; --w-ink:#26352A; --w-green:#3C6B49; --w-green-deep:#2C5237;
+    --w-muted:#6E7468; --w-faint:rgba(38,53,42,.5); --w-hair:rgba(38,53,42,.14); --w-brass:#9A7B3F;
+    --w-serif:'Noto Serif TC','Cormorant Garamond',serif; --w-serif-en:'Cormorant Garamond',serif;
+    --w-mono:'JetBrains Mono',monospace; --w-ease:cubic-bezier(0.23,1,0.32,1);
+    position:relative; min-height:100dvh; overflow:hidden; background:#FBFAF5;
+    margin-top:calc(-1 * var(--nav-h, 88px));   /* 破格:拉到透明 Nav 底下,滿版沈浸 */
+  }
+  .iv-copy{ position:absolute; top:clamp(150px,29vh,290px); left:0; right:0; text-align:center; z-index:6; padding:0 20px; pointer-events:none; }
+  .iv-kick{ font-family:var(--w-mono); font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--w-brass); margin:0 0 1.4rem; }
+  .iv-title{ font-family:'Noto Serif TC', serif; font-weight:500; font-size:clamp(28px,4.2vw,46px); line-height:1.28; letter-spacing:.26em; white-space:nowrap; color:var(--w-ink); margin:0; text-shadow:0 2px 44px rgba(251,250,245,.75); }
+  .iv-sub{ font-family:var(--w-serif); font-size:clamp(.92rem,1.5vw,1.08rem); color:var(--w-muted); margin:1.6rem 0 0; letter-spacing:.04em; }
+
+  .iv-stage{ position:absolute; inset:0; }
+  .iv-scene{ position:absolute; inset:0; width:100%; height:100%; will-change:transform; transform-origin:50% 52%; }
+  .iv-gl{ position:absolute; inset:0; z-index:2; }
+  .iv-gl canvas{ display:block; width:100% !important; height:100% !important; }
+  .iv-branch-fallback{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center; transform:translateY(24%); z-index:1; transition:opacity .6s ease; }
+  .iv-branch-fallback.hidden{ opacity:0; }
+
+  .iv-controls{ position:absolute; right:clamp(24px,5.5vw,72px); bottom:clamp(28px,4.5vh,54px); z-index:8; display:flex; align-items:center; gap:12px; }
+  .iv-controls button{ display:flex; align-items:center; gap:8px; background:rgba(251,250,245,.6); border:1px solid var(--w-hair); border-radius:5px; padding:9px 14px; cursor:pointer; color:var(--w-green-deep); font-family:var(--w-mono); font-size:.7rem; letter-spacing:.12em; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); transition:transform .3s var(--w-ease), border-color .3s var(--w-ease), background .3s var(--w-ease), box-shadow .3s var(--w-ease); }
+  .iv-controls button:hover{ border-color:rgba(60,107,73,.42); background:rgba(251,250,245,.92); transform:translateY(-2px); box-shadow:0 8px 22px rgba(38,53,42,.12); }
+  .iv-controls button:active{ transform:translateY(0) scale(.975); box-shadow:0 2px 8px rgba(38,53,42,.1); transition-duration:.08s; }
+  .fx-dot{ width:7px; height:7px; border-radius:50%; background:#7fae74; box-shadow:0 0 0 3px rgba(127,174,116,.18); transition:background .3s ease, box-shadow .3s ease; }
+  .iv-effect[aria-pressed="true"] .fx-dot{ background:#9a6a3f; box-shadow:0 0 0 3px rgba(154,106,63,.18); }
+  .fx-swap,.trk-swap{ color:var(--w-faint); }
+  .iv-sound{ letter-spacing:.16em; }
+  .iv-sound[aria-pressed="true"]{ border-color:rgba(60,107,73,.34); background:rgba(60,107,73,.08); }
+  .snd-wave{ display:inline-flex; align-items:flex-end; gap:2px; height:13px; }
+  .snd-wave i{ width:2px; height:3px; border-radius:1px; background:var(--w-green); opacity:.45; transition:height .2s ease; }
+  .iv-sound[aria-pressed="true"] .snd-wave i{ animation:wave .9s var(--w-ease) infinite; opacity:1; }
+  .snd-wave i:nth-child(2){ animation-delay:.15s; } .snd-wave i:nth-child(3){ animation-delay:.3s; } .snd-wave i:nth-child(4){ animation-delay:.45s; }
+  @keyframes wave{ 0%,100%{ height:4px;} 50%{ height:14px;} }
+
+  .iv-hint{ position:absolute; left:50%; bottom:clamp(20px,4vh,40px); transform:translateX(-50%); z-index:7; display:flex; flex-direction:column; align-items:center; gap:6px; font-family:var(--w-mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--w-faint); pointer-events:none; }
+  .iv-hint .arr{ animation:bob 2s var(--w-ease) infinite; font-size:.9rem; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); opacity:.5;} 50%{ transform:translateY(5px); opacity:1;} }
+
+  @media (max-width:600px){ .iv-controls{ gap:12px;} .fx-swap{ display:none;} }
+  @media (prefers-reduced-motion:reduce){ .iv-hint .arr,.snd-wave i{ animation:none !important;} }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import * as THREE from 'three';
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const hint = document.getElementById('scrollHint');
+
+  /* ---------- I1 · Hero 進場(標題字距收束 + controls 依序浮現)---------- */
+  if (!reduced) {
+    const introTitle = document.querySelector<HTMLElement>('.iv-title');
+    if (introTitle) gsap.fromTo(introTitle, { opacity:0, letterSpacing:'0.62em', y:16 }, { opacity:1, letterSpacing:'0.26em', y:0, duration:1.7, ease:'power3.out', delay:0.2 });
+    gsap.from('.iv-controls > *', { opacity:0, y:14, duration:1, ease:'power3.out', stagger:0.1, delay:0.6 });
+    if (hint) gsap.from(hint, { opacity:0, duration:1, ease:'power2.out', delay:1.1 });
+  }
+
+  /* ---------- I2 · 游標反應樹枝(WebGL,去白底 + trail 枯萎/孢子) ---------- */
+  const mount = document.getElementById('branchGl') as HTMLElement;
+  const branchFallback = document.getElementById('branchFallback') as HTMLImageElement;
+  const effectBtn = document.getElementById('effectBtn') as HTMLButtonElement;
+  const SRC_HEALTHY = '/preview-ivy/tree-healthy.webp';
+  const SRC_DRY = '/preview-ivy/tree-dry.webp';
+  const SRC_SPORE = '/preview-ivy/tree-spore.webp';
+  const TEX_W = 3600, TEX_H = 2025;
+
+  if (!reduced && mount) {
+    try {
+      const W = () => mount.clientWidth || window.innerWidth;
+      const H = () => mount.clientHeight || 480;
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x000000, 0);
+      renderer.setSize(W(), H());
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      mount.appendChild(renderer.domElement);
+
+      const cam = new THREE.Camera();
+      const quad = new THREE.PlaneGeometry(2, 2);
+      const rtOpts = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, depthBuffer: false, stencilBuffer: false };
+      let rtPrev = new THREE.WebGLRenderTarget(W(), H(), rtOpts);
+      let rtCur = new THREE.WebGLRenderTarget(W(), H(), rtOpts);
+      const vert = `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`;
+
+      const trailU = {
+        uPrev: { value: rtPrev.texture as THREE.Texture },
+        uMouse: { value: new THREE.Vector2(-1, -1) },
+        uRes: { value: new THREE.Vector2(W(), H()) },
+        uActive: { value: 0 },
+      };
+      const trailMat = new THREE.ShaderMaterial({ uniforms: trailU, vertexShader: vert, fragmentShader: `
+        precision highp float; varying vec2 vUv;
+        uniform sampler2D uPrev; uniform vec2 uMouse, uRes; uniform float uActive;
+        void main(){
+          vec2 prev = texture2D(uPrev, vUv).rg;
+          float asp = uRes.x/uRes.y;
+          float d = length((vUv - uMouse) * vec2(asp, 1.0));
+          // 碰到即種下(G 通道,永久);種下後不靠游標,自己隨時間長(R 通道)→
+          // 掃過就會長,游標離開後該處繼續冒完。沒有「停留才長」,也沒有跟著游標的亮圈
+          float touch = smoothstep(0.055, 0.015, d) * uActive;
+          float planted = max(prev.g, touch);
+          float g = clamp(prev.r + planted * 0.022, 0.0, 1.0);
+          gl_FragColor = vec4(g, planted, 0.0, 1.0);
+        }` });
+      const trailScene = new THREE.Scene(); trailScene.add(new THREE.Mesh(quad, trailMat));
+
+      const mainU = {
+        uTexH: { value: null as THREE.Texture | null },
+        uTexD: { value: null as THREE.Texture | null },
+        uTexS: { value: null as THREE.Texture | null },
+        uTrail: { value: rtCur.texture as THREE.Texture },
+        uRes: { value: new THREE.Vector2(W(), H()) },
+        uTexRes: { value: new THREE.Vector2(TEX_W, TEX_H) },
+        uTime: { value: 0 },
+        uMode: { value: 0 }, // 0 孢子長大 / 1 枯萎
+        uZoom: { value: 1 },
+      };
+      const mainMat = new THREE.ShaderMaterial({ uniforms: mainU, transparent: true, vertexShader: vert, fragmentShader: `
+        precision highp float; varying vec2 vUv;
+        uniform sampler2D uTexH, uTexD, uTexS, uTrail; uniform vec2 uRes, uTexRes; uniform float uTime, uMode, uZoom;
+        vec2 containUv(vec2 uv){
+          float sa = uRes.x/uRes.y, ta = uTexRes.x/uTexRes.y;
+          vec2 s = (sa > ta) ? vec2(1.0, sa/ta) : vec2(ta/sa, 1.0); // cover 滿版
+          vec2 c = (uv - 0.5)/s + 0.5;
+          c.y += 0.26; // 內容下移到中間偏下,上方留白給標題
+          return c;
+        }
+        float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+        float vnoise(vec2 p){
+          vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);
+          return mix(mix(hash(i), hash(i+vec2(1.0,0.0)), f.x),
+                     mix(hash(i+vec2(0.0,1.0)), hash(i+vec2(1.0,1.0)), f.x), f.y);
+        }
+        void main(){
+          vec2 focal = vec2(0.5, 0.42);
+          vec2 zUv = (vUv - focal)/uZoom + focal;        // 在 shader 內 zoom,保持滿解析度
+          vec2 cuv = containUv(zUv);
+          if(cuv.x<0.0||cuv.x>1.0||cuv.y<0.0||cuv.y>1.0){ discard; }
+          vec2 luv = cuv;   // 靜止,不做呼吸晃動
+          float react = texture2D(uTrail, vUv).r;
+          // 有機萌發:每小塊苔蘚各有 noise 門檻,種下的能量到門檻才冒出 →
+          // 先零星幾顆、停留才成片,取代「圓筆刷掃過整片揭開」
+          float th = mix(0.16, 0.88, vnoise(luv * 26.0));
+          float emerge = smoothstep(th - 0.13, th + 0.13, react);
+          float grow = 1.0 - uMode, wither = uMode;
+          float gm = emerge*grow, wm = emerge*wither;
+          // 三張真實狀態:健康 / 枯萎 / 長孢子(非破壞式 — 苔蘚本體不變透明)
+          vec4 h = texture2D(uTexH, luv);
+          vec2 sporeUv = luv + vec2(0.0, (1.0 - emerge) * 0.014); // 萌發時孢子由下往上「長」出來
+          vec4 sp = texture2D(uTexS, sporeUv);
+          vec4 dr = texture2D(uTexD, luv);
+          vec3 col = h.rgb;
+          float a = h.a;
+          col = mix(col, dr.rgb, wm);        // 枯萎:同輪廓變褐,不動 alpha
+          float growA = sp.a * gm * smoothstep(0.58, 0.70, cuv.y); // 孢子只在最上緣孢柄帶,下面不長
+          col = mix(col, sp.rgb, growA);
+          a = max(a, growA);                 // 苔蘚不變透明 → 不會露白底
+          if(a < 0.01) discard;
+          gl_FragColor = vec4(col, a);
+        }` });
+      const mainScene = new THREE.Scene(); mainScene.add(new THREE.Mesh(quad, mainMat));
+
+      const loader = new THREE.TextureLoader();
+      function loadTex(src: string, set: (t: THREE.Texture) => void, hideFb = false) {
+        loader.load(src, (t) => { t.colorSpace = THREE.SRGBColorSpace; set(t); if (hideFb) branchFallback.classList.add('hidden'); });
+      }
+      loadTex(SRC_HEALTHY, (t) => (mainU.uTexH.value = t), true);
+      loadTex(SRC_DRY, (t) => (mainU.uTexD.value = t));
+      loadTex(SRC_SPORE, (t) => (mainU.uTexS.value = t));
+
+      // 游標 → canvas 局部 uv
+      const target = new THREE.Vector2(-1, -1);
+      let active = 0;
+      function onMove(e: PointerEvent) {
+        const r = mount.getBoundingClientRect();
+        const u = (e.clientX - r.left) / r.width;
+        const v = 1 - (e.clientY - r.top) / r.height;
+        if (u >= 0 && u <= 1 && v >= 0 && v <= 1) { target.set(u, v); active = 1; }
+        else active = 0;
+      }
+      window.addEventListener('pointermove', onMove);
+
+      let mode = 0;
+      effectBtn.addEventListener('click', () => {
+        mode = mode === 0 ? 1 : 0;
+        effectBtn.setAttribute('aria-pressed', String(mode === 1));
+        effectBtn.querySelector('.fx-label')!.textContent = mode === 1 ? '枯萎' : '孢子長大';
+        effectBtn.querySelector('.fx-swap')!.textContent = mode === 1 ? '⇄ 孢子長大' : '⇄ 枯萎';
+      });
+
+      let visible = true;
+      new IntersectionObserver((es) => { visible = es[0].isIntersecting; }, { threshold: 0.01 }).observe(document.getElementById('hero')!);
+
+      const clock = new THREE.Clock();
+      function loop() {
+        requestAnimationFrame(loop);
+        const dt = clock.getDelta();
+        if (!visible) return;
+        mainU.uTime.value += dt;
+        if (active < 0.5) target.lerp(new THREE.Vector2(-1, -1), 0); // 不在範圍就不更新
+        trailU.uMouse.value.lerp(target, 0.16);
+        trailU.uActive.value += (active - trailU.uActive.value) * 0.2;
+        mainU.uMode.value += ((mode) - mainU.uMode.value) * 0.1;
+        trailU.uPrev.value = rtPrev.texture;
+        renderer.setRenderTarget(rtCur); renderer.render(trailScene, cam);
+        mainU.uTrail.value = rtCur.texture;
+        renderer.setRenderTarget(null); renderer.render(mainScene, cam);
+        const t = rtPrev; rtPrev = rtCur; rtCur = t;
+      }
+      loop();
+
+      window.addEventListener('resize', () => {
+        renderer.setSize(W(), H());
+        rtPrev.setSize(W(), H()); rtCur.setSize(W(), H());
+        trailU.uRes.value.set(W(), H()); mainU.uRes.value.set(W(), H());
+      });
+    } catch (err) { console.warn('[ivy-branch] WebGL fallback:', err); }
+  }
+
+  /* ---------- I3 · 音樂(可切換:自然原音 ⇄ 合成環境音)---------- */
+  const soundBtn = document.getElementById('soundBtn') as HTMLButtonElement;
+  const trackBtn = document.getElementById('trackBtn') as HTMLButtonElement;
+  const bgm = document.getElementById('bgm') as HTMLAudioElement;
+  const TRACKS = [
+    { name: 'EL 水滴鳥鳴 v2', kind: 'file', src: '/preview-ivy/track-moss2.mp3' },
+    { name: 'EL 森林 v1', kind: 'file', src: '/preview-ivy/track-moss.mp3' },
+    { name: '自然原音 YT', kind: 'file', src: '/preview-ivy/track-nature.mp3' },
+    { name: '合成環境音', kind: 'synth', src: '' },
+  ];
+  let trackIdx = 0, playing = false;
+  let actx: AudioContext | null = null, master: GainNode | null = null;
+
+  function buildAmbience(ctx: AudioContext){
+    const dur=4, buf=ctx.createBuffer(1, ctx.sampleRate*dur, ctx.sampleRate), d=buf.getChannelData(0);
+    let last=0; for(let i=0;i<d.length;i++){ const w=Math.random()*2-1; last=(last+0.02*w)/1.02; d[i]=last*3.2; }
+    const src=ctx.createBufferSource(); src.buffer=buf; src.loop=true;
+    const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=520; lp.Q.value=0.6;
+    const lfo=ctx.createOscillator(); lfo.frequency.value=0.06; const lg=ctx.createGain(); lg.gain.value=220;
+    lfo.connect(lg).connect(lp.frequency);
+    const bed=ctx.createGain(); bed.gain.value=0.9; src.connect(lp).connect(bed).connect(master!); src.start(); lfo.start();
+  }
+  function setSynth(v: boolean){
+    if(!actx){ actx=new (window.AudioContext||(window as any).webkitAudioContext)(); master=actx.createGain(); master.gain.value=0; master.connect(actx.destination); buildAmbience(actx); }
+    actx.resume();
+    master!.gain.cancelScheduledValues(actx.currentTime);
+    master!.gain.linearRampToValueAtTime(v?0.12:0, actx.currentTime+0.5);
+  }
+  function startCurrent(){
+    const t = TRACKS[trackIdx];
+    if(t.kind==='file'){
+      setSynth(false);
+      if(!bgm.src.endsWith(t.src)) bgm.src = t.src;
+      bgm.volume = 0.5; bgm.play().catch(()=>{});
+    } else { bgm.pause(); setSynth(true); }
+  }
+  function stopAll(){ bgm.pause(); setSynth(false); }
+  function refresh(){
+    soundBtn.setAttribute('aria-pressed', String(playing));
+    soundBtn.querySelector('.snd-label')!.textContent = playing ? 'SOUND OFF' : 'SOUND ON';
+    trackBtn.querySelector('.trk-label')!.textContent = TRACKS[trackIdx].name;
+  }
+  soundBtn.addEventListener('click', () => { playing=!playing; if(playing) startCurrent(); else stopAll(); refresh(); });
+  trackBtn.addEventListener('click', () => { trackIdx=(trackIdx+1)%TRACKS.length; if(playing) startCurrent(); refresh(); });
+</script>

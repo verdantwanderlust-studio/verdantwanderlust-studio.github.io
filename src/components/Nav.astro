@@ -1,7 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-import logoMark from '~/assets/logo/wanderlust-mark.png';
-
 const pathname = Astro.url.pathname;
 
 const links = [
@@ -17,15 +14,8 @@ const isActive = (href: string) =>
 ---
 <nav class="top">
   <div class="wrap">
-    <a class="brand" href="/" transition:name="brand-mark" aria-label="景觀丸藝 首頁">
-      <Image
-        class="mark-img"
-        src={logoMark}
-        alt="景觀丸藝"
-        height={64}
-        loading="eager"
-        densities={[1, 2]}
-      />
+    <a class="brand" href="/" transition:name="brand-mark" aria-label="Verdant Wanderlust 景觀丸藝 首頁">
+      VERDANT WANDERLUST
     </a>
 
     <ul class="links">
@@ -56,6 +46,8 @@ const isActive = (href: string) =>
   }
   .wrap {
     width: 100%;
+    /* 原本靠 64px 的 logo 圖撐開 bar 高度,改文字後改用 min-height 維持 */
+    min-height: 64px;
     padding: 0 var(--s-6);
     display: flex;
     align-items: center;
@@ -64,17 +56,18 @@ const isActive = (href: string) =>
   .brand {
     display: flex;
     align-items: center;
-    gap: 10px;
     border: none;
-    color: var(--ink);
+    /* 跟 .links a 同色(橄欖綠),原本用 var(--ink) 會是黑字配綠選單 */
+    color: #3a4914;
     margin-right: var(--s-2);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    white-space: nowrap;
   }
-  .brand:hover { border: none; }
-  .mark-img {
-    height: 64px;
-    width: auto;
-    display: block;
-  }
+  .brand:hover { border: none; opacity: 0.7; }
 
   .links {
     list-style: none;
@@ -97,8 +90,8 @@ const isActive = (href: string) =>
   .links a.active { color: #3a4914; }
 
   @media (max-width: 768px) {
-    .wrap { flex-wrap: wrap; gap: var(--s-3); }
+    .wrap { flex-wrap: wrap; gap: var(--s-3); min-height: 48px; padding-top: var(--s-3); padding-bottom: var(--s-3); }
     .links { margin-left: 0; gap: var(--s-3); width: 100%; justify-content: space-between; }
-    .mark-img { height: 48px; }
+    .brand { font-size: 0.9rem; letter-spacing: 0.12em; }
   }
 </style>
