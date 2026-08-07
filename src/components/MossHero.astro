@@ -42,7 +42,7 @@
   }
   .iv-copy{ position:absolute; top:clamp(150px,29vh,290px); left:0; right:0; text-align:center; z-index:6; padding:0 20px; pointer-events:none; }
   .iv-kick{ font-family:var(--w-mono); font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--w-brass); margin:0 0 1.4rem; }
-  .iv-title{ font-family:'Noto Serif TC', serif; font-weight:500; font-size:39px; line-height:1.28; letter-spacing:.32em; white-space:nowrap; color:var(--w-ink); margin:0; text-shadow:0 2px 44px rgba(251,250,245,.75); }
+  .iv-title{ font-family:'Noto Serif TC', serif; font-weight:500; font-size:37px; line-height:1.28; letter-spacing:.4em; white-space:nowrap; color:var(--w-ink); margin:0; text-shadow:0 2px 44px rgba(251,250,245,.75); }
   .iv-sub{ font-family:var(--w-serif); font-size:clamp(.92rem,1.5vw,1.08rem); color:var(--w-muted); margin:1.6rem 0 0; letter-spacing:.04em; }
 
   .iv-stage{ position:absolute; inset:0; }
@@ -85,7 +85,7 @@
   /* ---------- I1 · Hero 進場(標題字距收束 + controls 依序浮現)---------- */
   if (!reduced) {
     const introTitle = document.querySelector<HTMLElement>('.iv-title');
-    if (introTitle) gsap.fromTo(introTitle, { opacity:0, letterSpacing:'0.62em', y:16 }, { opacity:1, letterSpacing:'0.32em', y:0, duration:1.7, ease:'power3.out', delay:0.2 });
+    if (introTitle) gsap.fromTo(introTitle, { opacity:0, letterSpacing:'0.62em', y:16 }, { opacity:1, letterSpacing:'0.4em', y:0, duration:1.7, ease:'power3.out', delay:0.2 });
     gsap.from('.iv-controls > *', { opacity:0, y:14, duration:1, ease:'power3.out', stagger:0.1, delay:0.6 });
     if (hint) gsap.from(hint, { opacity:0, duration:1, ease:'power2.out', delay:1.1 });
   }
