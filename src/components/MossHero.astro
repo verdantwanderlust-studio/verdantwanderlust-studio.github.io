@@ -105,7 +105,7 @@
       //
       // 這是刻意的取捨,不是純贏(2026-07-17 實測):
       //   靜態 import  → 初始擋 130.8KB gzip,three 被 tree-shake 到約 99KB
-      //   動態 import  → 初始只擋 36.9KB,但 three 變成獨立 chunk 183.7KB
+      //   動態 import  → 初始只擋 36.9KB,但 三 變成獨立 chunk 183.7KB
       //                  (跨動態 import 邊界 Rollup 無法 tree-shake,
       //                   改成具名解構也一樣是 183.7KB,試過了)
       // 選動態的理由:hero 有靜態 fallback 圖(#branchFallback),沒有 three 畫面也是完整的,
@@ -159,7 +159,7 @@
         uTexRes: { value: new THREE.Vector2(TEX_W, TEX_H) },
         uTime: { value: 0 },
         uMode: { value: 0 }, // 0 孢子長大 / 1 枯萎
-        uZoom: { value: 1.4 },
+        uZoom: { value: 1 },
       };
       const mainMat = new THREE.ShaderMaterial({ uniforms: mainU, transparent: true, vertexShader: vert, fragmentShader: `
         precision highp float; varying vec2 vUv;
