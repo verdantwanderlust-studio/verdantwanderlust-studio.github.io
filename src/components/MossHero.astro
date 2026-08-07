@@ -42,7 +42,7 @@
   }
   .iv-copy{ position:absolute; top:clamp(150px,29vh,290px); left:0; right:0; text-align:center; z-index:6; padding:0 20px; pointer-events:none; }
   .iv-kick{ font-family:var(--w-mono); font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--w-brass); margin:0 0 1.4rem; }
-  .iv-title{ font-family:'Noto Serif TC', serif; font-weight:500; font-size:clamp(28px,4.2vw,46px); line-height:1.28; letter-spacing:.26em; white-space:nowrap; color:var(--w-ink); margin:0; text-shadow:0 2px 44px rgba(251,250,245,.75); }
+  .iv-title{ font-family:'Noto Serif TC', serif; font-weight:500; font-size:45px; line-height:1.28; letter-spacing:.26em; white-space:nowrap; color:var(--w-ink); margin:0; text-shadow:0 2px 44px rgba(251,250,245,.75); }
   .iv-sub{ font-family:var(--w-serif); font-size:clamp(.92rem,1.5vw,1.08rem); color:var(--w-muted); margin:1.6rem 0 0; letter-spacing:.04em; }
 
   .iv-stage{ position:absolute; inset:0; }
@@ -103,8 +103,7 @@
     try {
       // 到這裡才確定真的要跑 WebGL,現在才把 three 拉進來。
       //
-      // 這是刻意的取捨,不是純贏(2026-07-17 實測):
-      //   靜態 import  → 初始擋 130.8KB gzip,three 被 tree-shake 到約 99KB
+      // 這是刻意的取捨,不是純贏(2026-07-17 實測):\n      //   靜態 import  → 初始擋 130.8KB gzip,three 被 tree-shake 到約 99KB
       //   動態 import  → 初始只擋 36.9KB,但 three 變成獨立 chunk 183.7KB
       //                  (跨動態 import 邊界 Rollup 無法 tree-shake,
       //                   改成具名解構也一樣是 183.7KB,試過了)
