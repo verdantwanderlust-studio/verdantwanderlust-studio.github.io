@@ -20,13 +20,7 @@ const sections = photos
 const restParas = paras.slice(photos.length);
 ---
 <Base title="About · 景觀丸藝" description="關於景觀丸藝。">
-  <div class="page-head">
-    <p class="kicker">{data.kicker}</p>
-    {/* title 目前是空字串,h1:empty 會隱藏;Ivy 之後在 about.yaml 填了就會出現 */}
-    <h1>{data.title}</h1>
-  </div>
-
-  {heroPhoto && (
+  {heroPhoto ? (
     <header class="editorial-hero">
       <figure class="hero-media">
         <Image
@@ -37,7 +31,16 @@ const restParas = paras.slice(photos.length);
           loading="eager"
         />
       </figure>
+      <div class="hero-kicker">
+        <p class="kicker">{data.kicker}</p>
+        {data.title && <h1>{data.title}</h1>}
+      </div>
     </header>
+  ) : (
+    <div class="page-head">
+      <p class="kicker">{data.kicker}</p>
+      <h1>{data.title}</h1>
+    </div>
   )}
 
   {sections.map((s) => (
@@ -67,7 +70,7 @@ const restParas = paras.slice(photos.length);
 </Base>
 
 <style>
-  /* ---- 頁面標籤 ---- */
+  /* ---- 無 hero 圖時的備援標籤 ---- */
   .page-head {
     max-width: 980px;
     margin: 0 auto;
@@ -81,10 +84,9 @@ const restParas = paras.slice(photos.length);
     line-height: var(--lh-tight);
     margin: var(--s-3) 0 0 0;
   }
-  /* about.yaml 的 title 目前是空字串 —— 沿用 verdant 原版的隱藏規則 */
   .page-head h1:empty { display: none; }
 
-  /* ---- Hero:滿版照片,不放字(沿用 draft 的 photo-only 決定) ---- */
+  /* ---- Hero:滿版照片 ---- */
   .editorial-hero {
     position: relative;
     height: 100svh;
@@ -97,7 +99,6 @@ const restParas = paras.slice(photos.length);
     inset: 0;
     margin: 0;
     overflow: hidden;
-    /* 不加 will-change:JS 只動它裡面的 img,不動這層 */
   }
   .hero-media :global(img) {
     width: 100%;
@@ -107,6 +108,32 @@ const restParas = paras.slice(photos.length);
     display: block;
     transform: scale(1.12);
     will-change: transform;
+  }
+
+  /* ---- Kicker 疊在 hero 圖片上方 ---- */
+  .hero-kicker {
+    position: absolute;
+    top: calc(var(--nav-h, 88px) + var(--s-8));
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 4;
+    padding: 0 var(--s-6);
+    pointer-events: none;
+  }
+  .hero-kicker .kicker {
+    color: #ffffff;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
+  }
+  .hero-kicker h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: var(--track-tight);
+    line-height: var(--lh-tight);
+    color: #ffffff;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
+    margin: var(--s-3) 0 0 0;
   }
 
   /* ---- 三段照片/文字交錯 ---- */
