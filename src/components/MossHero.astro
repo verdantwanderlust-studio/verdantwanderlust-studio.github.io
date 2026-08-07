@@ -159,7 +159,7 @@
         uTexRes: { value: new THREE.Vector2(TEX_W, TEX_H) },
         uTime: { value: 0 },
         uMode: { value: 0 }, // 0 孢子長大 / 1 枯萎
-        uZoom: { value: 1 },
+        uZoom: { value: 1.4 },
       };
       const mainMat = new THREE.ShaderMaterial({ uniforms: mainU, transparent: true, vertexShader: vert, fragmentShader: `
         precision highp float; varying vec2 vUv;
